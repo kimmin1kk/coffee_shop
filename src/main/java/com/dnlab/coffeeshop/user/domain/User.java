@@ -21,7 +21,7 @@ public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long seq;
+    private long seq;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -31,8 +31,6 @@ public class User extends BaseTimeEntity {
     private String name;
     @Column(nullable = false, unique = true)
     private String nickname;
-    @Column(nullable = false)
-    private Integer mileage;
     @Column(nullable = false)
     private String phoneNumber;
 
@@ -53,10 +51,12 @@ public class User extends BaseTimeEntity {
         return "User{" +
                 "seq=" + seq +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", nickname='" + nickname + '\'' +
-                ", mileage=" + mileage +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", enabled=" + enabled +
+                ", addressList=" + addressList +
                 ", authorities=" + authorities +
                 '}';
     }

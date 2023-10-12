@@ -61,7 +61,7 @@ public class UserService {
         return UserInformationDto.builder()
                 .name(user.getName())
                 .nickname(user.getNickname())
-                .mileage(user.getMileage())
+                .phoneNumber(user.getPhoneNumber())
                 .createdDate(user.getCreatedDate())
                 .build();
     }

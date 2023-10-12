@@ -8,16 +8,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class RegistrationForm {
     private String username;
     private String password;
-    private String nickname;
     private String name;
+    private String nickname;
+    private String phoneNumber;
 
     public User toUser() {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
-        user.setNickname(nickname);
         user.setName(name);
-        user.setMileage(0);
+        user.setNickname(nickname);
+        user.setPhoneNumber(phoneNumber);
         user.setEnabled(true);
 
         return user;

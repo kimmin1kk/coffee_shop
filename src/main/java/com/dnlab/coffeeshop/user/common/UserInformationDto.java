@@ -10,6 +10,6 @@ import java.sql.Timestamp;
 public class UserInformationDto {
     private String name;
     private String nickname;
-    private Integer mileage;
+    private String phoneNumber;
     private Timestamp createdDate;
 }
