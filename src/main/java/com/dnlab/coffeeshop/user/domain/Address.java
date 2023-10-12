@@ -14,7 +14,6 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@EntityListeners(AuditingEntityListener.class)
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

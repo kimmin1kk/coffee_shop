@@ -6,17 +6,14 @@ import com.dnlab.coffeeshop.order.common.PaymentMethod;
 import com.dnlab.coffeeshop.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
 @Builder(toBuilder = true)
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-@EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class OrderList extends BaseTimeEntity {
 
     @Id
@@ -35,8 +32,5 @@ public class OrderList extends BaseTimeEntity {
 
     public OrderList(User user) {
         this.user = user;
-    }
-
-    public OrderList() {
     }
 }

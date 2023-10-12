@@ -3,16 +3,14 @@ package com.dnlab.coffeeshop.order.domain;
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
 import com.dnlab.coffeeshop.product.domain.Product;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.*;
 
 @Entity
 @Getter
-@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-@EntityListeners({AuditingEntityListener.class})
 public class Orders extends BaseTimeEntity {
 
     @Id

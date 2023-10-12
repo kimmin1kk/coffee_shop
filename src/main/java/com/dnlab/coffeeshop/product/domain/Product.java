@@ -3,13 +3,13 @@ package com.dnlab.coffeeshop.product.domain;
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
 import com.dnlab.coffeeshop.product.common.Category;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
-@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class Product extends BaseTimeEntity {
 
