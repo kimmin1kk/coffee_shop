@@ -1,6 +1,6 @@
 package com.dnlab.coffeeshop.user.domain;
 
-import com.dnlab.coffeeshop.auth.domain.Authority;
+import com.dnlab.coffeeshop.security.domain.Authority;
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -21,7 +21,7 @@ public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private long seq;
+    private Long seq;
 
     @Column(nullable = false, unique = true)
     private String username;

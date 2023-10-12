@@ -1,6 +1,6 @@
 package com.dnlab.coffeeshop.user.service;
 
-import com.dnlab.coffeeshop.auth.domain.Authority;
+import com.dnlab.coffeeshop.security.domain.Authority;
 import com.dnlab.coffeeshop.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

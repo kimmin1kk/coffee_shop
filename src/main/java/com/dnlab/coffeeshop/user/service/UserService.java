@@ -1,7 +1,7 @@
 package com.dnlab.coffeeshop.user.service;
 
-import com.dnlab.coffeeshop.auth.domain.Authority;
-import com.dnlab.coffeeshop.auth.repository.AuthorityRepository;
+import com.dnlab.coffeeshop.security.domain.Authority;
+import com.dnlab.coffeeshop.security.repository.AuthorityRepository;
 import com.dnlab.coffeeshop.user.common.AddAddressForm;
 import com.dnlab.coffeeshop.user.common.RegistrationForm;
 import com.dnlab.coffeeshop.user.common.Role;
@@ -12,13 +12,14 @@ import com.dnlab.coffeeshop.user.repository.AddressRepository;
 import com.dnlab.coffeeshop.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
+@Service
 public class UserService {
 
     private final UserRepository userRepository;

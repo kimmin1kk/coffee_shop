@@ -15,15 +15,15 @@ public class Product extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long seq;
+    private Long seq;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
     private Integer price;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Category category;
 }

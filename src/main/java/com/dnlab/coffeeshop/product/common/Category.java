@@ -1,6 +1,7 @@
 package com.dnlab.coffeeshop.product.common;
 
 public enum Category {
+    ALL,
     COFFEE,
     TEA,
     DRINK,
@@ -12,6 +13,7 @@ public enum Category {
 
     public String getDisplayName() {
         return switch (this) {
+            case ALL -> "전체";
             case COFFEE -> "커피";
             case TEA -> "차";
             case DRINK -> "음료";

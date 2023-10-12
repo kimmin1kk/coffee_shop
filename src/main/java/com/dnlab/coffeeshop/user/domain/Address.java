@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long seq;
+    private Long seq;
     @Column(nullable = false)
     private String addressName;
     @Column(nullable = false)
