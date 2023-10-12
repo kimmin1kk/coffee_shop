@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
+import static org.springframework.security.crypto.password.NoOpPasswordEncoder.*;
+
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
@@ -19,7 +21,8 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+//        return new BCryptPasswordEncoder(); //암호화 사용할 경우
+        return getInstance(); //암호화 하지 않고 사용할 경우
     }
 
     @Bean
