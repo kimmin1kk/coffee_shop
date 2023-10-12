@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head>
+    <title>Coffee Shop</title>
+    <meta charset="UTF-8">
+    <th:block th:insert="~{head::head-fragment}"/>
+</head>
+<body>
+<div th:fragment="header-fragment"></div>
+Hello world
+
+<a sec:authorize="isAnonymous()">
+    <a th:href="@{/login}">
+        <span>로그인</span>
+    </a>
+
+    <a th:href="@{/register}">
+        <span>회원가입</span>
+    </a>
+</a>
+</body>
+</html>

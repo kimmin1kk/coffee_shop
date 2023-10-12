@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div class="login form">
+        <header>Login</header>
+        <form method="post" th:action="@{/login}" id="formLogin">
+            <label for="username"></label>
+            <input type="text" name="username" id="username" placeholder="아이디를 입력하세요">
+            <label for="password"></label>
+            <input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요">
+
+            <input type="submit" class="button" value="로그인">
+            <input type="button" class="button2" value="취소" onclick="window.history.back()">
+        </form>
+    </div>
+</div>
+</body>
+</html>
