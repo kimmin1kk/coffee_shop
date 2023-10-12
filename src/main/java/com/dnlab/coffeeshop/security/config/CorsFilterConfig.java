@@ -1,4 +1,4 @@
-package com.dnlab.coffeeshop.auth.config;
+package com.dnlab.coffeeshop.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

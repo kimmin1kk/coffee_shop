@@ -1,4 +1,4 @@
-package com.dnlab.coffeeshop.auth.config;
+package com.dnlab.coffeeshop.security.config;
 
 
 import lombok.RequiredArgsConstructor;

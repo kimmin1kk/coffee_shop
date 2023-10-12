@@ -1,5 +1,6 @@
-package com.dnlab.coffeeshop.auth.domain;
+package com.dnlab.coffeeshop.security.domain;
 
+import com.dnlab.coffeeshop.config.BaseTimeEntity;
 import com.dnlab.coffeeshop.user.common.Role;
 import com.dnlab.coffeeshop.user.domain.User;
 import jakarta.persistence.*;
@@ -12,8 +13,8 @@ import org.hibernate.annotations.OnDeleteAction;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Authority {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
+public class Authority extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
