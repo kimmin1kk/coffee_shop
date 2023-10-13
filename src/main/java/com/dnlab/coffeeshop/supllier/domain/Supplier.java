@@ -14,7 +14,12 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class Supplier extends BaseTimeEntity {
+    //공급업체
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
+
+    private String name;
+
+    private String address;
 }

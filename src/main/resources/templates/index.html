@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org"
-      xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Coffee Shop</title>
     <meta charset="UTF-8">
@@ -8,16 +8,78 @@
 </head>
 <body>
 <div th:fragment="header-fragment"></div>
-Hello world
 
-<a sec:authorize="isAnonymous()">
-    <a th:href="@{/login}">
-        <span>로그인</span>
-    </a>
+<!-- Start Header -->
+<div th:fragment="header-fragment">
+    <nav>
+        <div>
+            <a th:href="@{/}">
+                DN Cafe
+            </a>
 
-    <a th:href="@{/register}">
-        <span>회원가입</span>
-    </a>
-</a>
+<!--            <button type="button" data-bs-toggle="collapse"-->
+<!--                    data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false"-->
+<!--                    aria-label="Toggle navigation">-->
+<!--                <span></span>-->
+<!--            </button>-->
+
+            <div id="templatemo_main_nav">
+                <div>
+                    <ul>
+                        <form th:action="@{/search-product}" method="get">
+                            <div>
+                                <input type="text" id="inputMobileSearch" name="keyword"
+                                       placeholder="Search ..." style="width: 68%">
+                                <select name="category" style="width: 20%">
+                                    <option th:each="categoryOpt : ${T(com.dnlab.coffeeshop.product.common.Category).values()}"
+                                            th:value="${categoryOpt}"
+                                            th:text="${categoryOpt.getDisplayName()}"></option>
+                                </select>
+                                <div style="width: 12%">
+                                    <button type="submit"><i>검색</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </ul>
+                </div>
+                <div>
+
+                    <a sec:authorize="isAuthenticated()">
+                        <a th:href="@{/shopping-cart}">
+                            <i></i>
+                        </a>
+                        <a th:href="@{/order-history-page}">
+                            <i></i>
+                        </a>
+
+                        <p sec:authorize="isAuthenticated()"><span
+                                th:text="'반갑습니다 '+${username}+'님'"></span></p>
+                        <a th:href="@{/my-page}">
+                            <span>마이페이지</span>
+                        </a>
+
+                        <a th:href="@{/logout}">
+                            <span>로그아웃</span>
+                        </a>
+                    </a>
+
+                    <a sec:authorize="isAnonymous()">
+                        <a th:href="@{/login}">
+                            <span>로그인</span>
+                        </a>
+
+                        <a th:href="@{/register}">
+                            <span>회원가입</span>
+                        </a>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</div> <!-- End Header-->
+
+
 </body>
 </html>

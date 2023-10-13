@@ -21,6 +21,7 @@ public class HomeController {
     private final ProductService productService;
     private final UserService userService;
 
+    @GetMapping("/")
     public String home(Model model, Principal principal) {
         List<Product> displayProducts = productService.productList();
         model.addAttribute("products", displayProducts);

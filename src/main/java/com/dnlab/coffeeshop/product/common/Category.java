@@ -6,7 +6,7 @@ public enum Category {
     TEA,
     DRINK,
     BAKERY,
-    PRODUCT,
+    GOODS,
     SET,
     GIFT_CARD,
     WIFI;
@@ -18,7 +18,7 @@ public enum Category {
             case TEA -> "차";
             case DRINK -> "음료";
             case BAKERY -> "제과";
-            case PRODUCT -> "상품";
+            case GOODS -> "상품";
             case SET -> "세트 메뉴";
             case GIFT_CARD -> "상품권";
             case WIFI -> "무선 인터넷";
