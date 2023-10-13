@@ -1,10 +1,7 @@
 package com.dnlab.coffeeshop.supllier.domain;
 
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -19,6 +16,7 @@ public class Supplier extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
+    @Column(unique = true)
     private String name;
 
     private String address;
