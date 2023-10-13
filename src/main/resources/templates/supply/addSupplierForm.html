@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>공급업체 등록</title>
+</head>
+<body>
+<div class="container">
+    <header>Add Supplier</header>
+    <form method="POST" th:action="@{/add-supplier}">
+        <label for="name"></label>
+        <input type="text" name="name" placeholder="공급업체명을 입력하세요">
+
+        <label for="address"></label>
+        <input type="text" name="address" placeholder="공급업체 주소를 입력해주세요."/>
+
+        <input type="submit" class="button" value="공급업체 등록">
+        <input type="button" class="button2" value="취소" onclick="window.history.back()">
+    </form>
+</div>
+</body>
+</html>
