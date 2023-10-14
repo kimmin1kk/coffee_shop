@@ -1,13 +1,16 @@
 package com.dnlab.coffeeshop.order.domain;
 
+
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
-import com.dnlab.coffeeshop.product.domain.Product;
+import com.dnlab.coffeeshop.order.common.PaymentMethod;
+import com.dnlab.coffeeshop.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
-@Getter
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
@@ -17,17 +20,17 @@ public class Orders extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @ManyToOne
-    @JoinColumn(name = "order_list_seq")
-    private OrderList orderList;
+    private PaymentMethod paymentMethod;
 
-    @ManyToOne
-    @JoinColumn(name = "product_seq")
-    private Product product;
+    @ManyToOne(cascade = CascadeType.DETACH)
+    private User user;
 
-    private Integer count;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orders", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<OrderContent> orderContents;
 
+    private Integer totalPrice;
 
-
-
+    public Orders(User user) {
+        this.user = user;
+    }
 }

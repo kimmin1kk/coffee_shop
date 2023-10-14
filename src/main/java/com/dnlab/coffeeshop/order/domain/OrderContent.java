@@ -1,7 +1,7 @@
-package com.dnlab.coffeeshop.product.domain;
+package com.dnlab.coffeeshop.order.domain;
 
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
-import com.dnlab.coffeeshop.product.common.Unit;
+import com.dnlab.coffeeshop.product.domain.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,21 +11,20 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class Recipe extends BaseTimeEntity {
+public class OrderContent extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    private Integer amount;
+    private Integer count;
 
     @ManyToOne
-    @JoinColumn(name = "ingredient_seq")
-    private Ingredient ingredient;
-
-    @Enumerated(EnumType.STRING)
-    private Unit unit;
+    @JoinColumn(name = "order_seq")
+    private Orders orders;
 
     @ManyToOne
-    @JoinColumn(name="product_seq")
+    @JoinColumn(name = "product_seq")
     private Product product;
+
 }
