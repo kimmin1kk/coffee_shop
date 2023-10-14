@@ -3,18 +3,15 @@ package com.dnlab.coffeeshop.user.domain;
 import com.dnlab.coffeeshop.security.domain.Authority;
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
-@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 //@EntityListeners(AuditingEntityListener.class)
 public class User extends BaseTimeEntity {
@@ -41,10 +38,7 @@ public class User extends BaseTimeEntity {
     private List<Address> addressList = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REMOVE)
-    private Set<Authority> authorities = new LinkedHashSet<>();
-
-    public User() {
-    }
+    private Set<Authority> authorities = new HashSet<>();
 
     @Override
     public String toString() {

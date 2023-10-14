@@ -4,6 +4,8 @@ import com.dnlab.coffeeshop.user.domain.User;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.HashSet;
+
 @Data
 public class RegistrationForm {
     private String username;
@@ -13,14 +15,14 @@ public class RegistrationForm {
     private String phoneNumber;
 
     public User toUser() {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setName(name);
-        user.setNickname(nickname);
-        user.setPhoneNumber(phoneNumber);
-        user.setEnabled(true);
-
-        return user;
+        return User.builder()
+                .username(username)
+                .password(password)
+                .name(name)
+                .nickname(nickname)
+                .phoneNumber(phoneNumber)
+                .enabled(true)
+                .authorities(new HashSet<>())
+                .build();
     }
 }
