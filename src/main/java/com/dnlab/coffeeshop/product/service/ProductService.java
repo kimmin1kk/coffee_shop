@@ -1,6 +1,7 @@
 package com.dnlab.coffeeshop.product.service;
 
 import com.dnlab.coffeeshop.product.common.Category;
+import com.dnlab.coffeeshop.product.common.ProductAddForm;
 import com.dnlab.coffeeshop.product.domain.Product;
 import com.dnlab.coffeeshop.product.repository.ProductRepository;
 import com.dnlab.coffeeshop.product.repository.SearchProductRepository;
@@ -14,6 +15,18 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
     private final SearchProductRepository searchProductRepository;
+
+    public void processingAddProduct(ProductAddForm productAddForm) {
+
+        // 음식 담을 때 레시피 바로 추가할 수 있게 하려면 여기에 구현하면 될 듯
+
+        productRepository.save(productAddForm.addProduct());
+    }
+
+
+
+
+
 
     public Product findProductBySeq(Long seq) {
         return productRepository.findById(seq).orElseThrow(() -> new RuntimeException("존재하지 않는 제품입니다."));
