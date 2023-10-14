@@ -1,4 +1,4 @@
-package com.dnlab.coffeeshop.ingredient.common;
+package com.dnlab.coffeeshop.product.common;
 
 public enum Unit {
     KILOMETER,

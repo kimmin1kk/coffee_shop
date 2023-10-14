@@ -1,7 +1,7 @@
-package com.dnlab.coffeeshop.ingredient.domain;
+package com.dnlab.coffeeshop.product.domain;
 
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
-import com.dnlab.coffeeshop.ingredient.common.Unit;
+import com.dnlab.coffeeshop.product.common.Unit;
 import jakarta.persistence.*;
 import lombok.*;
 

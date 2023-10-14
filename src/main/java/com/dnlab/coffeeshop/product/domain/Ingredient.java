@@ -1,7 +1,6 @@
-package com.dnlab.coffeeshop.ingredient.domain;
+package com.dnlab.coffeeshop.product.domain;
 
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
-import com.dnlab.coffeeshop.ingredient.common.Unit;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,12 +16,7 @@ public class Ingredient extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
+    @Column(unique = true)
     private String name;
-
-    private Integer amount;
-
-    @Enumerated(EnumType.STRING)
-    private Unit unit;
-
 
 }
