@@ -126,8 +126,9 @@
         <span>공급 내역</span>
     </a>
 </div>
+<h1 style="text-align: center">상품 목록</h1>
 
-<div class="product-items">
+<div class="product-items" style="text-align: center">
     <div th:each="product : ${products}">
         <a th:href="@{/single-product/{seq}(seq =${product.getSeq()})}">
             <div class="product-summary">
