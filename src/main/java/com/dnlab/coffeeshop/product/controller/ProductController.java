@@ -1,12 +1,20 @@
 package com.dnlab.coffeeshop.product.controller;
 
+import com.dnlab.coffeeshop.product.common.Category;
 import com.dnlab.coffeeshop.product.common.ProductAddForm;
+import com.dnlab.coffeeshop.product.domain.Product;
 import com.dnlab.coffeeshop.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,5 +31,20 @@ public class ProductController {
     public String processAddProduct(ProductAddForm productAddForm) {
         productService.processingAddProduct(productAddForm);
         return "redirect:/";
+    }
+
+    @GetMapping("/single-product/{seq}")
+    public String singleProduct(Model model, Principal principal, @PathVariable("seq") Long seq) {
+        Product product = productService.findProductBySeq(seq);
+        model.addAttribute("product", product);
+
+        return "shop/singleProduct";
+    }
+
+    @GetMapping("/search-product")
+    public String searchProduct(Model model, Principal principal, String keyword, Category category) {
+        List<Product> productList = productService.searchProductList(keyword, category);
+        model.addAttribute("products", productList);
+        return "index";
     }
 }
