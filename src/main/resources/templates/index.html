@@ -7,38 +7,6 @@
     <th:block th:insert="~{head::head-fragment}"/>
 
     <style>
-
-        a[href="/"] {
-            font-size: 2em;
-            padding-right: 10px;
-        }
-
-        nav div {
-            display: flex;
-            justify-content: space-between;
-            align-items:center;
-        }
-
-        .search-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .search-container form {
-            display:flex;
-        }
-
-        .search-container button {
-            height: fit-content;
-        }
-
-        .user-information-container {
-            display: flex;
-            align-items: center;
-            padding-bottom: 10px;
-        }
-
         .links {
             display: flex;
             flex-direction: row;
@@ -59,60 +27,61 @@
 
 <!-- Start Header -->
 <div th:fragment="header-fragment">
-    <nav>
+    <nav style="display: flex;justify-content: space-between;align-items: center;">
         <div>
-            <a th:href="@{/}">
+            <a th:href="@{/}" style=" font-size: 2em; padding-right: 10px;">
                 DN Cafe
             </a>
+        </div>
 
-            <div>
-                <ul>
-                    <div class="search-container">
-                        <form th:action="@{/search-product}" method="get">
-                            <input type="text" id="inputMobileSearch" name="keyword"
-                                   placeholder="Search ...">
-                            <select name="category">
-                                <option th:each="categoryOpt : ${T(com.dnlab.coffeeshop.product.common.Category).values()}"
-                                        th:value="${categoryOpt}"
-                                        th:text="${categoryOpt.getDisplayName()}"></option>
-                            </select>
-                            <button type="submit"><i>검색</i>
-                            </button>
-                        </form>
-                    </div>
-                </ul>
-            </div>
-            <div class="user-information-container">
+        <div>
+            <ul>
+                <div class="search-container" style="display: flex;justify-content: center;align-items: center;">
+                    <form th:action="@{/search-product}" method="get" style="display: flex">
+                        <input type="text" id="inputMobileSearch" name="keyword"
+                               placeholder="Search ...">
+                        <select name="category">
+                            <option th:each="categoryOpt : ${T(com.dnlab.coffeeshop.product.common.Category).values()}"
+                                    th:value="${categoryOpt}"
+                                    th:text="${categoryOpt.getDisplayName()}"></option>
+                        </select>
+                        <button type="submit" style="height: fit-content"><i>검색</i>
+                        </button>
+                    </form>
+                </div>
+            </ul>
+        </div>
 
-                <a sec:authorize="isAuthenticated()">
-                    <a th:href="@{/shopping-cart}">
-                        <i></i>
-                    </a>
-                    <a th:href="@{/order-history-page}">
-                        <i></i>
-                    </a>
+        <div class="user-information-container" style="display: flex;align-items: center;padding-bottom: 10px;">
 
-                    <p sec:authorize="isAuthenticated()"><span
-                            th:text="'반갑습니다 '+${username}+'님'"></span></p>
-                    <a th:href="@{/my-page}">
-                        <span>마이페이지</span>
-                    </a>
-
-                    <a th:href="@{/logout}">
-                        <span>로그아웃</span>
-                    </a>
+            <a sec:authorize="isAuthenticated()">
+                <a th:href="@{/shopping-cart}">
+                    <i></i>
+                </a>
+                <a th:href="@{/order-history-page}">
+                    <i></i>
                 </a>
 
-                <a sec:authorize="isAnonymous()">
-                    <a th:href="@{/login}">
-                        <span>로그인</span>
-                    </a>
-
-                    <a th:href="@{/register}">
-                        <span>회원가입</span>
-                    </a>
+                <p sec:authorize="isAuthenticated()"><span
+                        th:text="'반갑습니다 '+${username}+'님'"></span></p>
+                <a th:href="@{/my-page}">
+                    <span>마이페이지</span>
                 </a>
-            </div>
+
+                <a th:href="@{/logout}">
+                    <span>로그아웃</span>
+                </a>
+            </a>
+
+            <a sec:authorize="isAnonymous()">
+                <a th:href="@{/login}">
+                    <span>로그인</span>
+                </a>
+
+                <a th:href="@{/register}">
+                    <span>회원가입</span>
+                </a>
+            </a>
         </div>
     </nav>
 </div> <!-- End Header-->
@@ -137,9 +106,19 @@
 </div>
 
 <div class="links">
-    <a th:href="@{/manage-product}">
-        <span>등록 상품 관리</span>
+    <a th:href="@{/product-list}">
+        <span>상품 목록</span>
     </a>
+    <a th:href="@{/supplier-list}">
+        <span>공급업체 목록</span>
+    </a>
+    <a th:href="@{/ingredient-list}">
+        <span>재료 목록</span>
+    </a>
+</div>
+
+<div class="links">
+
     <a th:href="@{/add-supply}">
         <span>재료 공급</span>
     </a>

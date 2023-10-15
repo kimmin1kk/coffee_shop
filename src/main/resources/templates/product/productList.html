@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 목록</title>
+    <th:block th:insert="~{head::head-fragment}"/>
+
+
+    <style>
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+
+        }
+        table, tr, th, td{
+            border: solid black;
+        }
+    </style>
+</head>
+
+<body>
+<div th:insert="~{index::header-fragment}"></div>
+<h1 style="text-align: center">상품 목록</h1>
+<table class="">
+    <thead>
+    <tr>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>분야</th>
+        <th>상품 등록일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.getName()}"></td>
+        <td th:text="${product.getPrice()}"></td>
+        <td th:text="${product.getCategory().getDisplayName()}"></td>
+        <td th:text="${product.getCreatedDate()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

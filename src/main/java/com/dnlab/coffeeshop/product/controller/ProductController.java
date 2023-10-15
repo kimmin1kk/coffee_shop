@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,5 +45,11 @@ public class ProductController {
         List<Product> productList = productService.searchProductList(keyword, category);
         model.addAttribute("products", productList);
         return "index";
+    }
+
+    @GetMapping("/product-list")
+    public String productList(Model model, Principal principal) {
+        model.addAttribute("products", productService.getProductList());
+        return "/product/productList";
     }
 }

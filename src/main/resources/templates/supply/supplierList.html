@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>공급업체 목록</title>
+  <meta charset="UTF-8">
+  <th:block th:insert="~{head::head-fragment}"/>
+
+  <style>
+    table {
+      margin-left: auto;
+      margin-right: auto;
+      border-collapse: collapse;
+
+    }
+    table, tr, th, td{
+      border: solid black;
+    }
+  </style>
+</head>
+<body>
+<div th:insert="~{index::header-fragment}"></div>
+
+<h1 style="text-align: center">공급업체 목록</h1>
+<table class="">
+  <thead>
+  <tr>
+    <th>공급업체 명</th>
+    <th>업체 주소</th>
+    <th>업체 등록일</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="supplier : ${suppliers}">
+    <td th:text="${supplier.getName()}"></td>
+    <td th:text="${supplier.getAddress()}"></td>
+    <td th:text="${supplier.getCreatedDate()}"></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

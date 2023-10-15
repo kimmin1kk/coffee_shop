@@ -6,6 +6,8 @@ import com.dnlab.coffeeshop.product.repository.IngredientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class IngredientService {
@@ -14,6 +16,10 @@ public class IngredientService {
 
     public void processAddIngredient(IngredientAddForm ingredientAddForm) {
         ingredientRepository.save(ingredientAddForm.addIngredient());
+    }
+
+    public List<Ingredient> getIngredientList() {
+        return ingredientRepository.findAll();
     }
 
 }

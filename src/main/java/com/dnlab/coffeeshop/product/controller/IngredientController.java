@@ -5,8 +5,11 @@ import com.dnlab.coffeeshop.product.service.IngredientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.security.Principal;
 
 
 @Controller
@@ -26,5 +29,12 @@ public class IngredientController {
         ingredientService.processAddIngredient(ingredientAddForm);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/ingredient-list")
+    public String ingredientList(Model model, Principal principal) {
+
+        model.addAttribute("ingredients", ingredientService.getIngredientList());
+        return "/product/ingredientList";
     }
 }

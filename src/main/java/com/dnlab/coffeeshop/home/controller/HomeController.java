@@ -23,7 +23,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model, Principal principal) {
-        List<Product> displayProducts = productService.productList();
+        List<Product> displayProducts = productService.getProductList();
         model.addAttribute("products", displayProducts);
 
         return "index";

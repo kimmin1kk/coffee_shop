@@ -23,16 +23,11 @@ public class ProductService {
         productRepository.save(productAddForm.addProduct());
     }
 
-
-
-
-
-
     public Product findProductBySeq(Long seq) {
         return productRepository.findById(seq).orElseThrow(() -> new RuntimeException("존재하지 않는 제품입니다."));
     }
 
-    public List<Product> productList() {
+    public List<Product> getProductList() {
         return productRepository.findAll();
     }
 
