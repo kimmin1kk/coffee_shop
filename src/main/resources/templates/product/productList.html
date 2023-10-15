@@ -29,6 +29,7 @@
         <th>가격</th>
         <th>분야</th>
         <th>상품 등록일</th>
+        <th>레시피</th>
     </tr>
     </thead>
     <tbody>
@@ -37,6 +38,15 @@
         <td th:text="${product.getPrice()}"></td>
         <td th:text="${product.getCategory().getDisplayName()}"></td>
         <td th:text="${product.getCreatedDate()}"></td>
+        <td>
+            <a th:if="${product.getRecipeList() == null || #lists.isEmpty(product.getRecipeList())}"
+               th:href="@{/add-recipe/{seq}(seq=${product.getSeq()})}"
+               class="button">등록</a>
+
+            <a th:unless="${product.getRecipeList() == null || #lists.isEmpty(product.getRecipeList())}"
+               th:href="@{/edit-recipe/{seq}(seq=${product.getSeq()})}"
+               class="button">수정</a>
+        </td>
     </tr>
     </tbody>
 </table>
