@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
@@ -17,7 +16,7 @@ public class ProductController {
 
     @GetMapping("/add-product")
     public String productAddForm() {
-        return "/product/productForm";
+        return "/product/addProductForm";
     }
 
     @PostMapping("/add-product")

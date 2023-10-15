@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>재료 등록</title>
+</head>
+<body>
+<div class="container">
+    <header>Add Supplier</header>
+    <form method="POST" th:action="@{/add-ingredient}">
+        <label for="name"></label>
+        <input type="text" name="name" placeholder="재료명을 입력하세요">
+
+        <input type="submit" class="button" value="재료 등록">
+        <input type="button" class="button2" value="취소" onclick="window.history.back()">
+    </form>
+</div>
+</body>
+</html>
