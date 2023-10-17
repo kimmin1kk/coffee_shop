@@ -8,29 +8,50 @@
 <div class="container">
     <header>Add Recipe</header>
     <form method="POST" th:action="@{/add-recipe}" th:object="${recipeAddForm}">
+        <div id="items">
+            <div th:each="ingredientInfo, stat : *{ingredients}" class="item">
+                <input type="hidden" name="productSeq" th:value="${recipeAddForm.productSeq}">
+                <label for="ingredientName">재료명</label>
+                <select id="ingredientName" th:field="*{ingredients[__${stat.index}__].ingredientName}">
+                    <option th:each="ingredient : ${ingredients}"
+                            th:value="${ingredient.name}"
+                            th:text="${ingredient.name}"></option>
+                </select>
+                <label for="amount"></label>
+                <input type="text" th:field="*{ingredients[__${stat.index}__].amount}" placeholder="양을 입력해주세요">
+                <label for="unit">단위</label>
+                <select name="unit" th:field="*{ingredients[__${stat.index}__].unit}" style="width: 20%">
+                    <option th:each="unitOpt : ${T(com.dnlab.coffeeshop.product.common.Unit).values()}"
+                            th:value="${unitOpt}"
+                            th:text="${unitOpt.getDisplayName()}"></option>
+                </select>
+            </div>
+        </div>
 
-        <input type="hidden" name="productSeq" th:value="${recipeAddForm.productSeq}">
-
-        <label for="ingredientName">재료명</label>
-        <select id="ingredientName" name="ingredientName">
-            <option th:each="ingredient : ${ingredients}"
-                    th:value="${ingredient.name}"
-                    th:text="${ingredient.name}"></option>
-        </select>
-
-        <label for="amount"></label>
-        <input type="text" name="amount" placeholder="양을 입력해주세요">
-
-        <label for="unit">단위</label>
-        <select name="unit" style="width: 20%">
-            <option th:each="unitOpt : ${T(com.dnlab.coffeeshop.product.common.Unit).values()}"
-                    th:value="${unitOpt}"
-                    th:text="${unitOpt.getDisplayName()}"></option>
-        </select>
-
+        <button type="button" id="addItem">재료 추가</button>
         <input type="submit" class="button" value="레시피 등록">
         <input type="button" class="button2" value="취소" onclick="window.history.back()">
     </form>
 </div>
+
+<script>
+    document.getElementById('addItem').addEventListener('click', function () {
+        const itemsDiv = document.getElementById('items');
+        const newItem = document.querySelector('.item').cloneNode(true);
+        const index = itemsDiv.children.length;
+
+        newItem.querySelectorAll('select, input').forEach(input => {
+            input.name = input.name.replace(/\[\d+]/, '[' + index + ']');
+            input.id = input.name;
+            input.value = '';
+        });
+
+        newItem.querySelectorAll('label').forEach(label => {
+            label.setAttribute('for', label.htmlFor.replace(/\d+/, index));
+        });
+
+        itemsDiv.appendChild(newItem);
+    });
+</script>
 </body>
 </html>
