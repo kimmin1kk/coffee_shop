@@ -25,6 +25,8 @@
                             th:value="${unitOpt}"
                             th:text="${unitOpt.getDisplayName()}"></option>
                 </select>
+                <button type="button" class="deleteItem">재료 삭제</button>
+
             </div>
         </div>
 
@@ -51,6 +53,22 @@
         });
 
         itemsDiv.appendChild(newItem);
+    });
+    document.getElementById('items').addEventListener('click', function (event) {
+        if (event.target.classList.contains('deleteItem')) {
+            event.target.parentNode.remove();
+
+            Array.from(this.children).forEach((item, index) => {
+                item.querySelectorAll('select, input').forEach(input => {
+                    input.name = input.name.replace(/\[\d+\]/, '[' + index + ']');
+                    input.id = input.name;
+                });
+
+                item.querySelectorAll('label').forEach(label => {
+                    label.setAttribute('for', label.htmlFor.replace(/\d+/, index));
+                });
+            });
+        }
     });
 </script>
 </body>
