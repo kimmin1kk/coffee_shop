@@ -43,9 +43,13 @@
                th:href="@{/add-recipe/{seq}(seq=${product.getSeq()})}"
                class="button">등록</a>
 
+<!--            <a th:unless="${product.getRecipeList() == null || #lists.isEmpty(product.getRecipeList())}"-->
+<!--               th:href="@{/edit-recipe/{seq}(seq=${product.getSeq()})}"-->
+<!--               class="button">수정</a>-->
+
             <a th:unless="${product.getRecipeList() == null || #lists.isEmpty(product.getRecipeList())}"
-               th:href="@{/edit-recipe/{seq}(seq=${product.getSeq()})}"
-               class="button">수정</a>
+               th:href="@{/recipe-list/{seq}(seq=${product.getSeq()})}"
+               class="button">보기</a>
         </td>
     </tr>
     </tbody>

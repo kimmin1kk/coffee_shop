@@ -10,6 +10,9 @@ import com.dnlab.coffeeshop.product.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class RecipeService {
@@ -25,6 +28,22 @@ public class RecipeService {
             Recipe recipe = info.addRecipe(ingredient, product);
             recipeRepository.save(recipe);
         }
+    }
+
+    public Recipe updateRecipe(Long recipeSeq, Recipe updatedRecipe) {
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeSeq);
+        if (recipeOptional.isPresent()) {
+            return  recipeOptional.get().builder()
+                    .amount(updatedRecipe.getAmount())
+                    .unit(updatedRecipe.getUnit())
+                    .build();
+        }else {
+            throw new RuntimeException("ser not found with seq:" + recipeSeq);
+        }
+    }
+
+    public List<Recipe> getRecipes(Long productSeq) {
+        return recipeRepository.findRecipesByProductSeq(productSeq);
     }
 
 
