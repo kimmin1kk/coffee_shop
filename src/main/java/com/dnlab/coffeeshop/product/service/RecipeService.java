@@ -33,14 +33,15 @@ public class RecipeService {
     public Recipe updateRecipe(Long recipeSeq, Recipe updatedRecipe) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeSeq);
         if (recipeOptional.isPresent()) {
-            return  recipeOptional.get().builder()
-                    .amount(updatedRecipe.getAmount())
-                    .unit(updatedRecipe.getUnit())
-                    .build();
-        }else {
+            Recipe existingRecipe = recipeOptional.get();
+            existingRecipe.setAmount(updatedRecipe.getAmount());
+            existingRecipe.setUnit(updatedRecipe.getUnit());
+            return recipeRepository.save(existingRecipe);
+        } else {
             throw new RuntimeException("ser not found with seq:" + recipeSeq);
         }
     }
+
 
     public List<Recipe> getRecipes(Long productSeq) {
         return recipeRepository.findRecipesByProductSeq(productSeq);

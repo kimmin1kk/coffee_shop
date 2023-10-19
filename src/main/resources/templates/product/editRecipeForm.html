@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>레시피 변경</title>
+</head>
+<body>
+<div class="container">
+  <header>Edit Recipe</header>
+  <form method="POST" th:action="@{/edit-recipe/{recipeSeq}(recipeSeq=*{seq})}" th:object="${recipe}">
+    <input type="hidden" name="productSeq" th:value="*{product.seq}">
+
+    <label>재료명</label>
+    <input type="text" th:field="*{ingredient.name}" readonly>
+
+    <label for="amount"></label>
+    <input type="text" name="amount" th:field="*{amount}" />
+
+    <label for="unit"></label>
+    <select name="unit" style="width: 20%" th:field="*{unit}">
+      <option th:each="unitOpt : ${T(com.dnlab.coffeeshop.product.common.Unit).values()}"
+              th:value="${unitOpt}"
+              th:text="${unitOpt.getDisplayName()}"></option>
+    </select>
+
+    <input type="submit" class="button" value="변경">
+    <input type="button" class="button2" value="취소" onclick="window.history.back()">
+  </form>
+</div>
+</body>
+</html>

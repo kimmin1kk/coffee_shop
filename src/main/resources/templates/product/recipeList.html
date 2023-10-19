@@ -35,6 +35,7 @@
         <td th:text="${recipe.getIngredient().name}"></td>
         <td th:text="${recipe.getAmount()}"></td>
         <td th:text="${recipe.getUnit().getDisplayName()}"></td>
+        <td><a th:href="@{/edit-recipe/{id}(id=${recipe.getSeq()})}">수정</a></td>
     </tr>
     </tbody>
 </table>

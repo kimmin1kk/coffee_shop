@@ -2,6 +2,7 @@ package com.dnlab.coffeeshop.product.controller;
 
 import com.dnlab.coffeeshop.product.common.RecipeAddForm;
 import com.dnlab.coffeeshop.product.domain.Recipe;
+import com.dnlab.coffeeshop.product.repository.RecipeRepository;
 import com.dnlab.coffeeshop.product.service.IngredientService;
 import com.dnlab.coffeeshop.product.service.RecipeService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class RecipeController {
 
     private final IngredientService ingredientService;
     private final RecipeService recipeService;
+    private final RecipeRepository recipeRepository;
 
     @GetMapping("/add-recipe/{seq}")
     public String addForm(Model model, @PathVariable("seq") Long productSeq) {
@@ -33,8 +35,6 @@ public class RecipeController {
 
         return "product/addRecipeForm";
     }
-
-
     @PostMapping("/add-recipe")
     public String processAddRecipe(@ModelAttribute RecipeAddForm recipeAddForm) {
         recipeService.processingAddRecipe(recipeAddForm);
@@ -46,12 +46,25 @@ public class RecipeController {
         model.addAttribute("recipes", recipeService.getRecipes(productSeq));
 
         return "product/recipeList";
-
     }
-    @PostMapping("/edit-recipe/{seq}")
-    public String recipeEdit(Model model, Principal principal ,@PathVariable("seq") Long recipeSeq, Recipe recipe) {
+
+    @GetMapping("/edit-recipe/{seq}")
+    public String editForm(Model model, Principal principal, @PathVariable("seq") Long recipeSeq) {
+
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeSeq);
+        if (recipeOptional.isPresent()) {
+            Recipe recipe = recipeOptional.get();
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("ingredients", ingredientService.getIngredientList());
+        }
+        return "/product/editRecipeForm";
+    }
+
+    @PostMapping("/edit-recipe/{recipeSeq}")
+    public String recipeEdit(Model model, Principal principal, @PathVariable("recipeSeq") Long recipeSeq, Recipe recipe, @RequestParam("productSeq") Long productSeq) {
         recipeService.updateRecipe(recipeSeq, recipe);
 
-        return "redirect:/recipe-list";
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeSeq);
+        return "redirect:/recipe-list/" + productSeq;
     }
 }
