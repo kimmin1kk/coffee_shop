@@ -35,6 +35,7 @@ public class RecipeController {
 
         return "product/addRecipeForm";
     }
+
     @PostMapping("/add-recipe")
     public String processAddRecipe(@ModelAttribute RecipeAddForm recipeAddForm) {
         recipeService.processingAddRecipe(recipeAddForm);
@@ -42,8 +43,10 @@ public class RecipeController {
     }
 
     @GetMapping("/recipe-list/{seq}")
-    public String recipeList(Model model, Principal principal,@PathVariable("seq") Long productSeq) {
+    public String recipeList(Model model, Principal principal, @PathVariable("seq") Long productSeq) {
         model.addAttribute("recipes", recipeService.getRecipes(productSeq));
+        model.addAttribute("productSeq", productSeq);
+
 
         return "product/recipeList";
     }
@@ -61,10 +64,16 @@ public class RecipeController {
     }
 
     @PostMapping("/edit-recipe/{recipeSeq}")
-    public String recipeEdit(Model model, Principal principal, @PathVariable("recipeSeq") Long recipeSeq, Recipe recipe, @RequestParam("productSeq") Long productSeq) {
+    public String recipeEdit(@PathVariable("recipeSeq") Long recipeSeq, Recipe recipe, @RequestParam("productSeq") Long productSeq) {
         recipeService.updateRecipe(recipeSeq, recipe);
 
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeSeq);
+        return "redirect:/recipe-list/" + productSeq;
+    }
+
+    @GetMapping("delete-recipe/{seq}")
+    public String recipeDelete(@PathVariable("seq")Long recipeSeq,@RequestParam("productSeq")Long productSeq) {
+        recipeService.deleteRecipe(recipeSeq);
         return "redirect:/recipe-list/" + productSeq;
     }
 }

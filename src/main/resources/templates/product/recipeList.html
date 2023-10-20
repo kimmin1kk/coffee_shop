@@ -22,12 +22,16 @@
 <body>
 <div th:insert="~{index::header-fragment}"></div>
 <h1 style="text-align: center">레시피 목록</h1>
+
 <table class="">
+
     <thead>
     <tr>
         <th>재료명</th>
         <th>들어가는 양</th>
         <th>단위</th>
+        <th>보기/수정</th>
+        <th>삭제</th>
     </tr>
     </thead>
     <tbody>
@@ -36,7 +40,8 @@
         <td th:text="${recipe.getAmount()}"></td>
         <td th:text="${recipe.getUnit().getDisplayName()}"></td>
         <td><a th:href="@{/edit-recipe/{id}(id=${recipe.getSeq()})}">수정</a></td>
-    </tr>
+        <td><a th:href="@{/delete-recipe/{id}(id=${recipe.getSeq()}, productSeq=${productSeq})}">삭제</a></td>
+        </td></tr>
     </tbody>
 </table>
 

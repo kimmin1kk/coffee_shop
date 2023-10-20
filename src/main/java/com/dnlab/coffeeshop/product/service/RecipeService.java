@@ -47,6 +47,10 @@ public class RecipeService {
         return recipeRepository.findRecipesByProductSeq(productSeq);
     }
 
+    public void deleteRecipe(Long recipeSeq) {
+        recipeRepository.deleteById(recipeSeq);
+    }
+
 
 
 }
