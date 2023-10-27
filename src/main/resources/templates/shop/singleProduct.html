@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>상품 페이지</title>
+    <th:block th:insert="~{head::head-fragment}"/>
+</head>
+
+<body>
+<div th:insert="~{index::header-fragment}"></div>
+
+<!-- Open Content -->
+<section class="bg-light">
+    <div class="container pb-5">
+        <div class="row">
+            <!-- col end -->
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="h2" th:text="'제목 : ' + ${product.getName()}">
+                    </h1>
+                    <p class="h3 py-2">
+                    <div th:text="'가격 : ' + ${product.getPrice()} + '원'"></div>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <h6>카테고리:</h6>
+                        </li>
+                        <li class="list-inline-item">
+                            <p class="text-muted">
+                                <strong th:text="${product.getCategory().getDisplayName()}"></strong>
+                            </p>
+                        </li>
+                    </ul>
+
+                    <div class="row">
+                        <div class="col-auto">
+                            <ul class="list-inline pb-3">
+                                <li class="list-inline-item text-right">
+                                    Quantity
+                                    <input type="hidden" name="count" id="product-count-1" value="1">
+                                </li>
+                                <li class="list-inline-item"><span class="btn btn-success"
+                                                                   id="btn-minus">-</span></li>
+                                <li class="list-inline-item"><span class="badge bg-secondary"
+                                                                   id="var-value">1</span></li>
+                                <li class="list-inline-item"><span class="btn btn-success"
+                                                                   id="btn-plus">+</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div sec:authorize="isAuthenticated()">
+                        <div class="row pb-3">
+                            <div class="col-6">
+                                <form id="buy-form"
+                                      th:action="@{/add-to-cart-instant/{seq}(seq=${product.getSeq()})}">
+                                    <input type="hidden" name="count" id="product-count-3" th:value="${count}">
+                                    <button id="buy-now" type="submit" class="btn btn-success btn-lg w-100"
+                                            name="submit"
+                                            th:value="${product.getSeq()}">바로 구매
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-6">
+                                <form id="cart-form" th:action="@{/add-to-cart/{seq}(seq=${product.getSeq()})}"
+                                      method="post">
+                                    <input type="hidden" name="count" id="product-count-2" th:value="${count}">
+                                    <button id="add-to-cart" type="submit" class="btn btn-success btn-lg w-100"
+                                            name="submit"
+                                            th:value="${product.getSeq()}">장바구니 담기
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div sec:authorize="isAnonymous()">
+                        <h4>결제를 원하신다면 먼저 로그인해주세요.</h4>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Close Content -->
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const countInput1 = document.getElementById('product-count-1');
+        const countInput2 = document.getElementById('product-count-2');
+        const countInput3 = document.getElementById('product-count-3');
+        const varValueSpan = document.getElementById('var-value');
+        const btnMinus = document.getElementById('btn-minus');
+        const btnPlus = document.getElementById('btn-plus');
+        console.log(countInput1);
+        console.log(countInput2);
+        console.log(countInput3);
+        console.log(varValueSpan);
+        console.log(btnMinus);
+        console.log(btnPlus);
+
+        btnMinus.addEventListener('click', () => {
+            let count = parseInt(countInput1.value);
+            if (count > 1) {
+                count--;
+            }
+            console.log('count is ' + count);
+            countInput1.value = count;
+            countInput2.value = count;
+            countInput3.value = count;
+            varValueSpan.innerText = count;
+        });
+
+        btnPlus.addEventListener('click', () => {
+            let count = parseInt(countInput1.value);
+            count++;
+            console.log('count is ' + count);
+            countInput1.value = count;
+            countInput2.value = count;
+            countInput3.value = count;
+            varValueSpan.innerText = count;
+        });
+    });
+</script>
+
+</body>
+
+</html>
