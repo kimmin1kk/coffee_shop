@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>장바구니</title>
+    <th:block th:insert="~{head::head-fragment}"/>
+</head>
+<body>
+
+<!-- Start Header -->
+<div th:insert="~{index::header-fragment}"></div>
+<!-- End Header -->
+
+<!-- Start Shopping Cart -->
+<section>
+    <div class="container">
+        <div>
+            <div>
+                <h1 class="h1">장바구니</h1>
+                <p>
+                    구매하실 상품을 확인하세요.
+                </p>
+            </div>
+        </div>
+
+        <div class="table">
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">상품명</th>
+                    <th scope="col">가격</th>
+                    <th scope="col">수량</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${orders.getOrderContentList()}">
+                    <td th:text="${item.getProduct().getName()}"></td>
+                    <td th:text="${item.getProduct().getPrice()} * ${item.getCount()} + '원'"></td>
+                    <td>
+                        <form id="editCountForm" method="post"
+                              th:action="@{edit-product-count-from-cart/{seq}(seq=${item.getSeq()})}">
+                            <input id="countInput" type="number" name="count" min="1" th:value="${item.getCount()}">
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" th:action="@{/delete-product-from-cart/{seq}(seq=${item.getSeq()})}">
+                            <button type="submit" title="Remove item">X</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <div></div>
+            <div>
+                <h3>합계</h3>
+                <table class="table">
+                    <tr>
+                        <td>총 가격</td>
+                        <td th:text="${totalPrice} + '원'"></td>
+                    </tr>
+                </table>
+                <a th:href="@{/order-page}">결제하기</a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Shopping Cart -->
+
+<!-- Start Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () { //수량 1 이상으로만 입력할 수 있게 예외처리
+        const editCountForm = document.getElementById('editCountForm');
+        const countInput = document.getElementById('countInput');
+
+        editCountForm.addEventListener('keypress', function (event) {
+            let key = event.which || event.keyCode;
+
+            if (key === 13) {
+                let countValue = parseInt(countInput.value);
+
+                if (countValue >= 1) {
+                    event.preventDefault();
+                    editCountForm.submit();
+                } else {
+                    event.preventDefault();
+                    alert('1 이상의 숫자를 입력해주세요.');
+                }
+            }
+        });
+    });
+</script>
+<!-- End Script -->
+
+</body>
+</html>

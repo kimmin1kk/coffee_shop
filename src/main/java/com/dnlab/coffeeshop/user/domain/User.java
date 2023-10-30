@@ -1,5 +1,6 @@
 package com.dnlab.coffeeshop.user.domain;
 
+import com.dnlab.coffeeshop.order.domain.Orders;
 import com.dnlab.coffeeshop.security.domain.Authority;
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -39,6 +40,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Authority> authorities = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Orders> ordersList = new ArrayList<>();
 
     @Override
     public String toString() {

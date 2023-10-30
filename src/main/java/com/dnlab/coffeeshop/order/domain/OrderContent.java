@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Getter
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
@@ -27,4 +28,9 @@ public class OrderContent extends BaseTimeEntity {
     @JoinColumn(name = "product_seq")
     private Product product;
 
+    public OrderContent(Orders orders, Product product, Integer count) {
+        this.count = count;
+        this.orders = orders;
+        this.product = product;
+    }
 }
