@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Add Supply Form</title>
+</head>
+<body>
+<form action="#" th:action="@{/supply/add-supply}" method="post" th:object="${supplyAddForm}">
+  <label for="supplierName">공급업체명:</label>
+  <select id="supplierName" th:field="*{supplierName}">
+    <option th:each="supplier : ${suppliers}" th:value="${supplier.name}" th:text="${supplier.name}"></option>
+  </select>
+
+  <div th:each="content, stat : *{supplyContentList}">
+    <label th:for="${'supplyContentList[' + stat.index + '].ingredientName'}">재료명:</label>
+    <select th:field="*{supplyContentList[__${stat.index}__].ingredientName}">
+      <option th:each="ingredient : ${ingredients}" th:value="${ingredient.name}" th:text="${ingredient.name}"></option>
+    </select>
+
+    <label th:for="${'supplyContentList[' + stat.index + '].amount'}">공급량:</label>
+    <input type="number" th:field="*{supplyContentList[__${stat.index}__].amount}">
+
+    <label th:for="${'supplyContentList[' + stat.index + '].unit'}">공급단위:</label>
+    <select th:field="*{supplyContentList[__${stat.index}__].unit}">
+      <option th:each="unit : ${T(com.dnlab.coffeeshop.product.common.Unit).values()}" th:value="${unit}" th:text="${unit}"></option>
+    </select>
+
+    <label th:for="${'supplyContentList[' + stat.index + '].price'}">가격:</label>
+    <input type="number" th:field="*{supplyContentList[__${stat.index}__].price}">
+  </div>
+
+  <label for="dueDate">공급 예정일:</label>
+  <input type="datetime-local" id="dueDate" th:field="*{dueDate}">
+
+  <button type="button" onclick="addSupplyContent()">재료 추가</button>
+
+  <input type="submit" value="Submit">
+</form>
+
+<script src="/js/manageList.js">
+  function addSupplyContent() {
+    // 재료를 추가하는 JavaScript 코드를 작성하세요.
+  }
+</script>
+</body>
+</html>
