@@ -28,10 +28,4 @@ public class HomeController {
         return "index";
     }
 
-    @GetMapping("/my-page")
-    public String myPage(Model model, Principal principal) {
-        model.addAttribute("user", userService.findUserInformationByUsername(principal.getName()));
-        return "account/myPage";
-    }
-
 }
