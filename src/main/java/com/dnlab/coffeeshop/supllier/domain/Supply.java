@@ -18,10 +18,12 @@ public class Supply extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
+    @Column(nullable = false)
     private Timestamp dueDate;
 
     private Timestamp actualDueDate;
 
+    @Column(nullable = false)
     private int totalPrice;
 
     @ManyToOne

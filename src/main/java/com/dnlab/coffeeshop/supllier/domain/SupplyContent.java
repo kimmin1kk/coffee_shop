@@ -18,10 +18,13 @@ public class SupplyContent extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
+    @Column(nullable = false)
     private int amount;
 
+    @Column(nullable = false)
     private Unit unit;
 
+    @Column(nullable = false)
     private int price;
 
     @ManyToOne

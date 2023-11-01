@@ -17,6 +17,7 @@ public class Recipe extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
+    @Column(nullable = false)
     private Integer amount;
 
     @ManyToOne
@@ -24,6 +25,7 @@ public class Recipe extends BaseTimeEntity {
     private Ingredient ingredient;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Unit unit;
 
     @ManyToOne

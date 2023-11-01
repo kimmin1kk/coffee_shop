@@ -22,6 +22,7 @@ public class Orders extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
+    @Column(nullable = false)
     private PaymentMethod paymentMethod;
 
     @ManyToOne(cascade = CascadeType.DETACH)
@@ -30,11 +31,16 @@ public class Orders extends BaseTimeEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "orders", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<OrderContent> orderContentList;
 
+    @Column(nullable = false)
     private Integer totalPrice;
 
+    @Column(nullable = false)
     private OrderState orderState;
 
+    @Builder.Default
     private boolean instant = false;
+
+    @Builder.Default
     private boolean ordered = false;
 
     public Orders(User user) {

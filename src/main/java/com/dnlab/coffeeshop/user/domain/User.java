@@ -33,14 +33,18 @@ public class User extends BaseTimeEntity {
     private String phoneNumber;
 
     @Column(columnDefinition = "boolean default true")
+    @Builder.Default
     private boolean enabled = true;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<Address> addressList = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private Set<Authority> authorities = new HashSet<>();
 
+    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Orders> ordersList = new ArrayList<>();
 

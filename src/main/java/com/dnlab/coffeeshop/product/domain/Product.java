@@ -1,9 +1,9 @@
 package com.dnlab.coffeeshop.product.domain;
 
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
-import com.dnlab.coffeeshop.order.domain.OrderContent;
 import com.dnlab.coffeeshop.product.common.Category;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -20,12 +20,14 @@ public class Product extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
+    @NotNull
     @Column(nullable = false)
     private Integer price;
 
+    @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
