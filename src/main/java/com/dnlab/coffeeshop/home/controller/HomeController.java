@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
 import java.util.List;
@@ -32,14 +31,7 @@ public class HomeController {
     @GetMapping("/my-page")
     public String myPage(Model model, Principal principal) {
         model.addAttribute("user", userService.findUserInformationByUsername(principal.getName()));
-        model.addAttribute("addressList", userService.findUserAddressListByUsername(principal.getName()));
-
         return "account/myPage";
     }
 
-    @GetMapping("/delete-address/{seq})")
-    public String addressDelete(@PathVariable Long seq) {
-        userService.deleteAddressBySeq(seq);
-        return "redirect:/my-page";
-    }
 }
