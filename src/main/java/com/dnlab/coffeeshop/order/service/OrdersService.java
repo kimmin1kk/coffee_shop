@@ -75,11 +75,8 @@ public class OrdersService {
             processOrder(orders);
             Orders modifiedOrders = orders.toBuilder()
                     .orderState(OrderState.PENDING)
-//                    .postalCode(orderPageForm.getPostalCode())
-//                    .defaultAddress(orderPageForm.getDefaultAddress())
-//                    .detailAddress(orderPageForm.getDetailAddress())
-//                    .cardNumber(orderPageForm.getCardNumber())
-//                    .cardType(orderPageForm.getCardType())
+                    .paymentMethod(orderPageForm.getPaymentMethod())  // OrderPageForm에서 paymentMethod를 가져옴
+                    .totalPrice(orders.getOrderContentList().stream().mapToInt(oc -> oc.getProduct().getPrice() * oc.getCount()).sum())  // 주문 상품들의 가격을 합산
                     .ordered(true)
                     .build();
             ordersRepository.save(modifiedOrders);

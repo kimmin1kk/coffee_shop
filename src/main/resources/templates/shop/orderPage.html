@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>결제 정보</title>
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    <th:block th:insert="~{head::head-fragment}"/>
+</head>
+<body>
+<div th:insert="~{index::header-fragment}"></div>
+<!-- Open Content -->
+<section>
+    <form id="orderPageForm" method="post" th:action="@{/order-page}">
+        <div class="container">
+            <div class="row">
+                <div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h1>결제 정보</h1>
+                            <hr>
+                            <select name="paymentMethod" style="width: 20%">
+                                <option th:each="paymentMethodOpt : ${T(com.dnlab.coffeeshop.order.common.PaymentMethod).values()}"
+                                        th:value="${paymentMethodOpt}"
+                                        th:text="${paymentMethodOpt.getDisplayName()}"></option>
+                            </select>
+                            <input type="hidden" id="order-instant" name="orderInstant"
+                                   th:value="${orders.isInstant()}">
+                            <h4 class="mt-4">주문 상품</h4>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>상품명</th>
+                                    <th>가격</th>
+                                    <th>주문 수량</th>
+                                    <th>총 가격</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="cart: ${orders.getOrderContentList()}">
+                                    <tr>
+                                        <td th:text="${cart.product.getName()}">상품</td>
+                                        <td th:text="${cart.product.getPrice()}">가격</td>
+                                        <td th:text="${cart.getCount()}">주문 수량</td>
+                                        <td th:text="${cart.getCount()} * ${cart.product.getPrice()}">총 가격</td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                            <hr/>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="card">
+                        <div class="card-body">
+                            <button id="submit-payment" type="submit" name="submit">결제하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+</body>
+</html>

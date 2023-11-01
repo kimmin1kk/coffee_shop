@@ -14,7 +14,6 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-//@EntityListeners(AuditingEntityListener.class)
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,10 +35,6 @@ public class User extends BaseTimeEntity {
     @Builder.Default
     private boolean enabled = true;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
-    @Builder.Default
-    private List<Address> addressList = new ArrayList<>();
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REMOVE)
     @Builder.Default
     private Set<Authority> authorities = new HashSet<>();
@@ -57,7 +52,6 @@ public class User extends BaseTimeEntity {
                 ", nickname='" + nickname + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", enabled=" + enabled +
-                ", addressList=" + addressList +
                 ", authorities=" + authorities +
                 '}';
     }

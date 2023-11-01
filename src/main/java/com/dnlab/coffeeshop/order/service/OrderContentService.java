@@ -160,9 +160,15 @@ public class OrderContentService {
     public int findTotalPrice(String username) {
         var orders = findOrders(username);
         List<OrderContent> orderContentList = orders.getOrderContentList();
-        return orderContentList.stream()
-                .mapToInt(i -> i.getProduct().getPrice() * i.getCount())
-                .sum();
+        if (!orderContentList.isEmpty()) {
+            return orderContentList.stream()
+                    .mapToInt(i -> i.getProduct().getPrice() * i.getCount())
+                    .sum();
+        }
+        else {
+            return 0;
+        }
+
     }
 
     /**

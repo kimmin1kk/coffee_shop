@@ -3,7 +3,6 @@ package com.dnlab.coffeeshop.order.controller;
 import com.dnlab.coffeeshop.order.common.OrderPageForm;
 import com.dnlab.coffeeshop.order.service.OrderContentService;
 import com.dnlab.coffeeshop.order.service.OrdersService;
-import com.dnlab.coffeeshop.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -19,7 +18,7 @@ public class OrderController {
 
     private final OrdersService ordersService;
     private final OrderContentService orderContentService;
-    private final UserService userService;
+
     /**
      * 장바구니에서 결제하기를 클릭했을 때 호출되는 컨트롤러
      *
@@ -29,9 +28,7 @@ public class OrderController {
      */
     @GetMapping("/order-page")
     public String orderPage(Model model, Principal principal) {
-        model.addAttribute("orderContent", orderContentService.findOrders(principal.getName()));
-        model.addAttribute("addresses", userService.findUserAddressListByUsername(principal.getName()));
-//        model.addAttribute("cards", userService.findUserCardListByUsername(principal.getName()));
+        model.addAttribute("orders", orderContentService.findOrders(principal.getName()));
         return "shop/orderPage";
     }
 
@@ -50,9 +47,7 @@ public class OrderController {
         }
         orderContentService.addProductToCartForInstant(seq, principal.getName(), count);
 
-        model.addAttribute("orderContent", orderContentService.findOrdersForInstant(principal.getName()));
-        model.addAttribute("addresses", userService.findUserAddressListByUsername(principal.getName()));
-//        model.addAttribute("cards", userService.findUserCardListByUsername(principal.getName()));
+        model.addAttribute("orders", orderContentService.findOrdersForInstant(principal.getName()));
         return "shop/orderPage";
     }
 

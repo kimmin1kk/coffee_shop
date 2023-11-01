@@ -8,6 +8,7 @@ import com.dnlab.coffeeshop.user.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,16 +23,18 @@ public class Orders extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "orders", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<OrderContent> orderContentList;
+    private List<OrderContent> orderContentList = new ArrayList<>();
 
     private Integer totalPrice;
 
+    @Enumerated(EnumType.STRING)
     private OrderState orderState;
 
     @Builder.Default

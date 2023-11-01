@@ -55,7 +55,7 @@
                         <div class="row pb-3">
                             <div class="col-6">
                                 <form id="buy-form"
-                                      th:action="@{/add-to-cart-instant/{seq}(seq=${product.getSeq()})}">
+                                      th:action="@{/add-to-cart-instant/{seq}(seq=${product.getSeq()})}" method="get">
                                     <input type="hidden" name="count" id="product-count-3" th:value="${count}">
                                     <button id="buy-now" type="submit" class="btn btn-success btn-lg w-100"
                                             name="submit"
