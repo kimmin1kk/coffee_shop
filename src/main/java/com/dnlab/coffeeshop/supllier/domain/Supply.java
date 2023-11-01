@@ -4,7 +4,8 @@ import com.dnlab.coffeeshop.config.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,9 +20,9 @@ public class Supply extends BaseTimeEntity {
     private Long seq;
 
     @Column(nullable = false)
-    private Timestamp dueDate;
+    private LocalDateTime dueDate;
 
-    private Timestamp actualDueDate;
+    private LocalDateTime actualDueDate;
 
     @Column(nullable = false)
     private int totalPrice;
@@ -30,8 +31,9 @@ public class Supply extends BaseTimeEntity {
     @JoinColumn(name = "supplier_seq")
     private Supplier supplier;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "supply", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<SupplyContent> supplyContentList;
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "supply", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SupplyContent> supplyContentList = new ArrayList<>();
 
 
 }

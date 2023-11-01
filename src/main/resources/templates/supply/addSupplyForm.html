@@ -4,7 +4,7 @@
     <title>Add Supply Form</title>
 </head>
 <body>
-<form action="#" th:action="@{/supply/add-supply}" method="post" th:object="${supplyAddForm}">
+<form th:action="@{/add-supply}" method="post" th:object="${supplyAddForm}">
     <label for="supplierName">공급업체명:</label>
     <select id="supplierName" th:field="*{supplierName}">
         <option th:each="supplier : ${suppliers}" th:value="${supplier.name}" th:text="${supplier.name}"></option>
@@ -24,7 +24,7 @@
             <label th:for="${'supplyContentList[' + stat.index + '].unit'}">공급단위:</label>
             <select th:field="*{supplyContentList[__${stat.index}__].unit}">
                 <option th:each="unit : ${T(com.dnlab.coffeeshop.product.common.Unit).values()}" th:value="${unit}"
-                        th:text="${unit}"></option>
+                        th:text="${unit.getDisplayName()}"></option>
             </select>
 
             <label th:for="${'supplyContentList[' + stat.index + '].price'}">가격:</label>

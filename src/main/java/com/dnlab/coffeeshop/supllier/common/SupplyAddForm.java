@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class SupplyAddForm {
 
     public List<SupplyContentInfo> supplyContentList = new ArrayList<>();
 
-    public Timestamp dueDate;
+    public LocalDateTime dueDate;
 
 
     /**
