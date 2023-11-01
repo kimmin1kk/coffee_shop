@@ -43,6 +43,7 @@ public class UserService {
                 .name(user.getName())
                 .nickname(user.getNickname())
                 .phoneNumber(user.getPhoneNumber())
+                .address(user.getAddress())
                 .createdDate(user.getCreatedDate())
                 .build();
     }

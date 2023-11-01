@@ -11,5 +11,6 @@ public class UserInformationDto {
     private String name;
     private String nickname;
     private String phoneNumber;
+    private String address;
     private Timestamp createdDate;
 }

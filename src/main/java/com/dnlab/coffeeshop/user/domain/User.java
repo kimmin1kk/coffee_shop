@@ -30,6 +30,8 @@ public class User extends BaseTimeEntity {
     private String nickname;
     @Column(nullable = false)
     private String phoneNumber;
+    @Column(nullable = false)
+    private String address;
 
     @Column(columnDefinition = "boolean default true")
     @Builder.Default

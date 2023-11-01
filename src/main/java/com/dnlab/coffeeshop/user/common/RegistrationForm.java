@@ -2,7 +2,6 @@ package com.dnlab.coffeeshop.user.common;
 
 import com.dnlab.coffeeshop.user.domain.User;
 import lombok.Data;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
 
@@ -13,6 +12,7 @@ public class RegistrationForm {
     private String name;
     private String nickname;
     private String phoneNumber;
+    private String address;
 
     public User toUser() {
         return User.builder()
@@ -21,6 +21,7 @@ public class RegistrationForm {
                 .name(name)
                 .nickname(nickname)
                 .phoneNumber(phoneNumber)
+                .address(address)
                 .enabled(true)
                 .authorities(new HashSet<>())
                 .build();
