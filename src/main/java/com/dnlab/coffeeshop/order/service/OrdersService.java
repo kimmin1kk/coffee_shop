@@ -1,7 +1,6 @@
 package com.dnlab.coffeeshop.order.service;
 
 import com.dnlab.coffeeshop.order.common.OrderPageForm;
-import com.dnlab.coffeeshop.order.common.OrderState;
 import com.dnlab.coffeeshop.order.domain.OrderContent;
 import com.dnlab.coffeeshop.order.domain.Orders;
 import com.dnlab.coffeeshop.order.repository.OrderContentRepository;
@@ -74,7 +73,6 @@ public class OrdersService {
         if (checkCart(orders)) {
             processOrder(orders);
             Orders modifiedOrders = orders.toBuilder()
-                    .orderState(OrderState.PENDING)
                     .paymentMethod(orderPageForm.getPaymentMethod())  // OrderPageForm에서 paymentMethod를 가져옴
                     .totalPrice(orders.getOrderContentList().stream().mapToInt(oc -> oc.getProduct().getPrice() * oc.getCount()).sum())  // 주문 상품들의 가격을 합산
                     .ordered(true)
@@ -100,6 +98,11 @@ public class OrdersService {
         return orderedCarts;
     }
 
+    /**
+     * ordered가 True 인 주문 리스트 반환
+     *
+     * @return List<Orders>
+     */
     public List<Orders> getAllOrderList() {
         List<Orders> ordersList = new ArrayList<>();
         for (Orders selectOrdersList : ordersRepository.findAll()) {
@@ -109,4 +112,5 @@ public class OrdersService {
         }
         return ordersList;
     }
+
 }

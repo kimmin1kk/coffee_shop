@@ -64,10 +64,17 @@ public class OrderController {
         return "redirect:/";
     }
 
-    @GetMapping("/order-history-page")
+    @GetMapping("/order-history")
     public String orderHistoryPage(Model model, Principal principal) {
         model.addAttribute("orderedCarts", ordersService.getOrderedCarts(principal.getName()));
-        return "account/orderHistoryList";
+        return "account/orderHistory";
+    }
+
+    @GetMapping("/order-list")
+    public String orderList(Model model, Principal principal) {
+        model.addAttribute("orders", ordersService.getAllOrderList());
+        log.info(ordersService.getAllOrderList() + "sss");
+        return "shop/orderList";
     }
 
 }

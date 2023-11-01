@@ -2,7 +2,6 @@ package com.dnlab.coffeeshop.order.domain;
 
 
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
-import com.dnlab.coffeeshop.order.common.OrderState;
 import com.dnlab.coffeeshop.order.common.PaymentMethod;
 import com.dnlab.coffeeshop.user.domain.User;
 import jakarta.persistence.*;
@@ -33,9 +32,6 @@ public class Orders extends BaseTimeEntity {
     private List<OrderContent> orderContentList = new ArrayList<>();
 
     private Integer totalPrice;
-
-    @Enumerated(EnumType.STRING)
-    private OrderState orderState;
 
     @Builder.Default
     private boolean instant = false;

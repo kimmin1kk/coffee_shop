@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>주문 내역</title>
+    <th:block th:insert="~{head::head-fragment}"/>
+
+
+    <style>
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+
+        }
+        table, tr, th, td{
+            border: solid black;
+        }
+    </style>
+</head>
+
+<body>
+<div th:insert="~{index::header-fragment}"></div>
+<h1 style="text-align: center">주문 내역</h1>
+<table class="">
+    <thead>
+    <tr>
+        <th>주문번호</th>
+        <th>결제방식</th>
+        <th>주문상태</th>
+        <th>주문날짜</th>
+        <th>총 결제액</th>
+        <th>상품정보</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="orders : ${orderedCarts}">
+        <td th:text="${orders.getSeq()}"></td>
+        <td th:text="${orders.getPaymentMethod().getDisplayName()}"></td>
+        <td th:text="${orders.getOrderState().getDisplayName()}"></td>
+        <td th:text="${orders.getModifiedDate()}"></td>
+        <td th:text="${orders.getTotalPrice() + '원'}"></td>
+        <td>
+            <ul>
+                <li th:each="orderContent : ${orders.getOrderContentList()}" th:text="
+                ' 제품명: ' + ${orderContent.getProduct().getName()} +
+                ' 주문 수량: ' + ${orderContent.getCount()} +
+                ' 가격: ' + ${orderContent.getProduct().getPrice() * orderContent.getCount() + '원'}">
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
