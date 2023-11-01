@@ -8,7 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,5 +36,19 @@ public class SupplyController {
     public String processAddSupply(SupplyAddForm supplyAddForm) {
         supplyService.createSupply(supplyAddForm);
         return "redirect:/";
+    }
+
+    @GetMapping("/supply-list")
+    public String supplyList(Model model, Principal principal) {
+        model.addAttribute("supplies", supplyService.getSupplyList());
+
+        return "/supply/supplyList";
+    }
+
+    @GetMapping("/supply-content-list/{seq}")
+    public String supplyContentList(Model model, Principal principal, @PathVariable("seq") Long seq) {
+        model.addAttribute("supplyContents", supplyService.getSupplyContentList(seq));
+
+        return "supply/supplyContentList";
     }
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>공급 내역</title>
+    <meta charset="UTF-8">
+    <th:block th:insert="~{head::head-fragment}"/>
+
+    <style>
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+
+        }
+
+        table, tr, th, td {
+            border: solid black;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{index::header-fragment}"></div>
+
+<h1 style="text-align: center">공급 내역</h1>
+<table class="">
+    <thead>
+    <tr>
+        <th>공급업체 명</th>
+        <th>납기일</th>
+        <th>공급 항목</th>
+        <th>총액</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="supply : ${supplies}">
+        <td th:text="${supply.getSupplier().getName()}"></td>
+        <td th:text="${supply.getDueDate()}"></td>
+        <td>
+            <a th:href="@{/supply-content-list/{seq}(seq=${supply.getSeq()})}"
+               class="button">보기</a>
+        </td>
+        <td th:text="${supply.totalPrice}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
+</body>
+</html>

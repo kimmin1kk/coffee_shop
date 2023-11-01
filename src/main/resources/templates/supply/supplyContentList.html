@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>공급 항목 </title>
+  <meta charset="UTF-8">
+  <th:block th:insert="~{head::head-fragment}"/>
+
+  <style>
+    table {
+      margin-left: auto;
+      margin-right: auto;
+      border-collapse: collapse;
+
+    }
+
+    table, tr, th, td {
+      border: solid black;
+    }
+  </style>
+</head>
+<body>
+<div th:insert="~{index::header-fragment}"></div>
+
+<h1 style="text-align: center">공급 항목</h1>
+<table class="">
+  <thead>
+  <tr>
+    <th>재료명</th>
+    <th>공급량</th>
+    <th>공급단위</th>
+    <th>공급가</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="supplyContent : ${supplyContents}">
+    <td th:text="${supplyContent.getIngredient().getName()}"></td>
+    <td th:text="${supplyContent.getAmount()}"></td>
+    <td th:text="${supplyContent.getUnit().getDisplayName()}"></td>
+    <td th:text="${supplyContent.getPrice()}"></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
+</body>
+</html>
