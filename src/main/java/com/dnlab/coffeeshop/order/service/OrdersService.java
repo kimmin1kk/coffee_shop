@@ -74,7 +74,7 @@ public class OrdersService {
         if (checkCart(orders)) {
             processOrder(orders);
             Orders modifiedOrders = orders.toBuilder()
-                    .orderState(OrderState.PREPARING)
+                    .orderState(OrderState.PENDING)
 //                    .postalCode(orderPageForm.getPostalCode())
 //                    .defaultAddress(orderPageForm.getDefaultAddress())
 //                    .detailAddress(orderPageForm.getDetailAddress())

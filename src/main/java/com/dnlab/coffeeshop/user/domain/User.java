@@ -44,7 +44,6 @@ public class User extends BaseTimeEntity {
     @Builder.Default
     private Set<Authority> authorities = new HashSet<>();
 
-    @Builder.Default
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Orders> ordersList = new ArrayList<>();
 

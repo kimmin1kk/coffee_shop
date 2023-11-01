@@ -6,10 +6,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum OrderState {
-    PREPARING, CANCELED, RETURN, SHIPPING ,CONFIRM;
+
+   PENDING ,PREPARING, CANCELED, RETURN, SHIPPING ,CONFIRM;
 
     public String getDisplayName() {
         return switch (this) {
+            case PENDING -> "입금 확인 중";
             case PREPARING -> "준비 중";
             case CANCELED -> "취소 처리";
             case RETURN -> "반품 처리";
