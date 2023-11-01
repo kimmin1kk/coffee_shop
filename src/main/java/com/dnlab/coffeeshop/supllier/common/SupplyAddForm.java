@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,7 +19,7 @@ public class SupplyAddForm {
 
     public String supplierName;
 
-    public List<SupplyContentInfo> supplyContentList;
+    public List<SupplyContentInfo> supplyContentList = new ArrayList<>();
 
     public Timestamp dueDate;
 

@@ -20,9 +20,13 @@ public class SupplyController {
 
     @GetMapping("/add-supply")
     public String supplyAddForm(Model model) {
+        SupplyAddForm supplyAddForm = new SupplyAddForm();
+        supplyAddForm.getSupplyContentList().add(new SupplyAddForm.SupplyContentInfo());
+
+        model.addAttribute("supplyContentList", supplyAddForm.getSupplyContentList());
         model.addAttribute("suppliers", supplierService.getSupplierList());
         model.addAttribute("ingredients", ingredientService.getIngredientList());
-        model.addAttribute("supplyAddForm", new SupplyAddForm());
+        model.addAttribute("supplyAddForm", supplyAddForm);
         return "/supply/addSupplyForm";
     }
 
