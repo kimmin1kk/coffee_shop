@@ -22,8 +22,6 @@ public class Supply extends BaseTimeEntity {
     @Column(nullable = false)
     private LocalDateTime dueDate;
 
-    private LocalDateTime actualDueDate;
-
     @Column(nullable = false)
     private int totalPrice;
 

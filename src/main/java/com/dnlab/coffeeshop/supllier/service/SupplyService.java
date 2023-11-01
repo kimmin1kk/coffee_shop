@@ -40,6 +40,7 @@ public class SupplyService {
     /**
      * createSupply 메서드 호출 시 호출되는 메서드.
      * 메서드명에서 볼 수 있듯 공급항목을 공급에 넣어줌
+     * 내부에서 사용되는 메서드이기에 private 접근 제한자를 둠
      * @param supply
      * @param supplyContentInfos
      */
@@ -56,5 +57,9 @@ public class SupplyService {
             supply.getSupplyContentList().add(supplyContent);
         }
     }
+    public List<Supply> getSupplyList() {
+        return supplyRepository.findAll();
+    }
+
 
 }
