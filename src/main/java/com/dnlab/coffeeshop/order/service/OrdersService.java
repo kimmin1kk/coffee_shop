@@ -1,7 +1,6 @@
 package com.dnlab.coffeeshop.order.service;
 
 import com.dnlab.coffeeshop.order.common.OrderPageForm;
-import com.dnlab.coffeeshop.order.domain.OrderContent;
 import com.dnlab.coffeeshop.order.domain.Orders;
 import com.dnlab.coffeeshop.order.repository.OrderContentRepository;
 import com.dnlab.coffeeshop.order.repository.OrdersRepository;
@@ -12,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -30,7 +27,7 @@ public class OrdersService {
      * OrderContent Seq 넣어야함
      */
     public boolean checkQuantity(Long seq) {
-        Optional<OrderContent> orderContentOptional = orderContentRepository.findById(seq);
+//        Optional<OrderContent> orderContentOptional = orderContentRepository.findById(seq);
 //        return orderContentOptional.filter(orderContent -> orderContent.getCount() <= orderContent.getProduct().getQuantity()).isPresent();
         return true;
     }
@@ -40,11 +37,8 @@ public class OrdersService {
      */
 
     public boolean checkCart(Orders orders) {
-        for (OrderContent product : orders.getOrderContentList()) {
-            if (!checkQuantity(product.getSeq())) {
-                return false;
-            }
-        }
+//        return orders.getOrderContentList().stream()
+//                .noneMatch(product -> checkQuantity(product.getSeq()));
         return true;
     }
 
@@ -54,13 +48,13 @@ public class OrdersService {
      */
     @Transactional
     public void processOrder(Orders orders) {
-        List<OrderContent> orderContentList = new ArrayList<>();
-        for (OrderContent orderContent : orders.getOrderContentList()) { // 재고량 -- 하는 과정
-            Product product = orderContent.getProduct();
-//            product.setQuantity(product.getQuantity() - orderContent.getCount());
-            productRepository.save(product);
-            orderContentList.add(orderContent);
-        }
+        orders.getOrderContentList().stream()
+                .map(orderContent -> {
+                    Product product = orderContent.getProduct();
+                    //재고량 -- 로직 넣으면 됨
+                    return product;
+
+                }).forEach(productRepository::save);
 
     }
 
@@ -88,14 +82,10 @@ public class OrdersService {
      * @return List<Orders> orderedCarts
      */
     public List<Orders> getOrderedCarts(String username) {
-        var user = userRepository.findByUsername(username);
-        List<Orders> orderedCarts = new ArrayList<>();
-        for (Orders selectOrderedCart : user.getOrdersList()) {
-            if (selectOrderedCart.isOrdered()) {
-                orderedCarts.add(selectOrderedCart);
-            }
-        }
-        return orderedCarts;
+
+        return userRepository.findByUsername(username).getOrdersList().stream()
+                .filter(Orders::isOrdered)
+                .toList();
     }
 
     /**
@@ -104,13 +94,9 @@ public class OrdersService {
      * @return List<Orders>
      */
     public List<Orders> getAllOrderList() {
-        List<Orders> ordersList = new ArrayList<>();
-        for (Orders selectOrdersList : ordersRepository.findAll()) {
-            if (selectOrdersList.isOrdered()) {
-                ordersList.add(selectOrdersList);
-            }
-        }
-        return ordersList;
+        return ordersRepository.findAll().stream()
+                .filter(Orders::isOrdered)
+                .toList();
     }
 
 }

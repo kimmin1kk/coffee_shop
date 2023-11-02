@@ -22,11 +22,12 @@ public class RecipeService {
     public void processingAddRecipe(RecipeAddForm recipeAddForm) {
         Product product = productRepository.findBySeq(recipeAddForm.getProductSeq());
 
-        for (RecipeAddForm.IngredientInfo info : recipeAddForm.getIngredients()) {
-            Ingredient ingredient = ingredientRepository.findByName(info.getIngredientName());
-            Recipe recipe = info.addRecipe(ingredient, product);
-            recipeRepository.save(recipe);
-        }
+        recipeAddForm.getIngredients().stream()
+                .map(info -> {
+                    Ingredient ingredient = ingredientRepository.findByName(info.getIngredientName());
+                    return info.addRecipe(ingredient, product);
+                })
+                .forEach(recipeRepository::save);
     }
 
     public void updateRecipe(Long recipeSeq, Recipe updatedRecipe) {

@@ -42,29 +42,28 @@ public class SupplyService {
      * createSupply 메서드 호출 시 호출되는 메서드.
      * 메서드명에서 볼 수 있듯 공급항목을 공급에 넣어줌
      * 내부에서 사용되는 메서드이기에 private 접근 제한자를 둠
+     *
      * @param supply
      * @param supplyContentInfos
      */
     private void addSupplyContentsToSupply(Supply supply, List<SupplyAddForm.SupplyContentInfo> supplyContentInfos) {
-        for (SupplyAddForm.SupplyContentInfo info : supplyContentInfos) {
-            Ingredient ingredient = ingredientRepository.findByName(info.getIngredientName());
-            SupplyContent supplyContent = SupplyContent.builder()
-                    .ingredient(ingredient)
-                    .supply(supply)
-                    .price(info.getPrice())
-                    .unit(info.getUnit())
-                    .amount(info.getAmount())
-                    .build();
-            supply.getSupplyContentList().add(supplyContent);
-        }
+
+        supplyContentInfos.stream()
+                .map(info -> {
+                    Ingredient ingredient = ingredientRepository.findByName(info.getIngredientName());
+                    return SupplyContent.builder()
+                            .ingredient(ingredient)
+                            .supply(supply)
+                            .price(info.getPrice())
+                            .unit(info.getUnit())
+                            .amount(info.getAmount())
+                            .build();
+                }).forEach(supplyContent -> supply.getSupplyContentList().add(supplyContent));
     }
 
     private Integer getSupplyTotalPrice(List<SupplyAddForm.SupplyContentInfo> supplyContentInfos) {
-        int totalPrice = 0;
-        for (SupplyAddForm.SupplyContentInfo info : supplyContentInfos) {
-            totalPrice += info.getPrice();
-        }
-        return totalPrice;
+        return supplyContentInfos.stream()
+                .mapToInt(SupplyAddForm.SupplyContentInfo::getPrice).sum();
     }
 
 

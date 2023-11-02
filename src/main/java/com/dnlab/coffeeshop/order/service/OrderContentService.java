@@ -40,13 +40,10 @@ public class OrderContentService {
      * @return 장바구니
      */
     public Orders findOrders(String username) {
-        Orders cart = null;
-        for (Orders findCart : ordersRepository.findOrdersListByUserUsername(username)) {
-            if (!findCart.isOrdered() && !findCart.isInstant()) {
-                cart = findCart;
-            }
-        }
-        return cart;
+        return ordersRepository.findOrdersListByUserUsername(username).stream()
+                .filter(findCart -> !findCart.isOrdered() && !findCart.isInstant())
+                .findFirst()
+                .orElse(null);
     }
 
 
@@ -58,13 +55,10 @@ public class OrderContentService {
      * @return 장바구니
      */
     public Orders findOrdersForInstant(String username) {
-        Orders cart = null;
-        for (Orders findCart : ordersRepository.findOrdersListByUserUsername(username)) {
-            if (!findCart.isOrdered() && findCart.isInstant()) {
-                cart = findCart;
-            }
-        }
-        return cart;
+        return ordersRepository.findOrdersListByUserUsername(username).stream()
+                .filter(findcart -> !findcart.isOrdered() && findcart.isInstant())
+                .findFirst()
+                .orElse(null);
     }
 
     /**
