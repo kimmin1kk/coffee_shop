@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,16 +29,17 @@ public class RecipeService {
         }
     }
 
-    public Recipe updateRecipe(Long recipeSeq, Recipe updatedRecipe) {
-        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeSeq);
-        if (recipeOptional.isPresent()) {
-            Recipe existingRecipe = recipeOptional.get();
-            existingRecipe.setAmount(updatedRecipe.getAmount());
-            existingRecipe.setUnit(updatedRecipe.getUnit());
-            return recipeRepository.save(existingRecipe);
-        } else {
-            throw new RuntimeException("ser not found with seq:" + recipeSeq);
-        }
+    public void updateRecipe(Long recipeSeq, Recipe updatedRecipe) {
+        recipeRepository.findById(recipeSeq).ifPresentOrElse(
+                recipeValue -> {
+                    recipeValue.setAmount(updatedRecipe.getAmount());
+                    recipeValue.setUnit(updatedRecipe.getUnit());
+                    recipeRepository.save(recipeValue);
+                },
+                () -> {
+                    throw new RuntimeException("ser not found with seq:" + recipeSeq);
+                }
+        );
     }
 
 
@@ -50,7 +50,6 @@ public class RecipeService {
     public void deleteRecipe(Long recipeSeq) {
         recipeRepository.deleteById(recipeSeq);
     }
-
 
 
 }

@@ -4,7 +4,6 @@ import com.dnlab.coffeeshop.order.domain.OrderContent;
 import com.dnlab.coffeeshop.order.domain.Orders;
 import com.dnlab.coffeeshop.order.repository.OrderContentRepository;
 import com.dnlab.coffeeshop.order.repository.OrdersRepository;
-import com.dnlab.coffeeshop.product.domain.Product;
 import com.dnlab.coffeeshop.product.repository.ProductRepository;
 import com.dnlab.coffeeshop.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -164,8 +162,7 @@ public class OrderContentService {
             return orderContentList.stream()
                     .mapToInt(i -> i.getProduct().getPrice() * i.getCount())
                     .sum();
-        }
-        else {
+        } else {
             return 0;
         }
 
@@ -183,20 +180,23 @@ public class OrderContentService {
 
         var orders = findOrders(username);
 
-        Optional<Product> product = productRepository.findById(seq);
+        productRepository.findById(seq).ifPresentOrElse(
+                productValue -> {
+                    OrderContent existingOrderContent = orderContentRepository.findByOrdersAndProduct(orders, productValue);
 
-        if (product.isPresent()) { //Optional<Product>기 때문에 isPresent 메서드를 통해 검증하는 과정이 있어야함
-            OrderContent existingOrderContent = orderContentRepository.findByOrdersAndProduct(orders, product.get());
-
-            if (existingOrderContent == null) { //이미 장바구니에 있는 상품일 경우, 카운트만 올라가게 하는 로직
-                OrderContent newOrderContent = new OrderContent(orders, product.get(), count);
-                orderContentRepository.save(newOrderContent);
-            } else {
-                int updatedCount = existingOrderContent.getCount() + count;
-                existingOrderContent.setCount(updatedCount);
-                orderContentRepository.save(existingOrderContent);
-            }
-        }
+                    if (existingOrderContent == null) { //이미 장바구니에 있는 상품일 경우, 카운트만 올라가게 하는 로직
+                        OrderContent newOrderContent = new OrderContent(orders, productValue, count);
+                        orderContentRepository.save(newOrderContent);
+                    } else {
+                        int updatedCount = existingOrderContent.getCount() + count;
+                        existingOrderContent.setCount(updatedCount);
+                        orderContentRepository.save(existingOrderContent);
+                    }
+                },
+                () -> {
+                    //Optional null 일 때 여기서 처리
+                }
+        );
     }
 
     /**
@@ -209,13 +209,15 @@ public class OrderContentService {
 
         var orders = findOrdersForInstant(username);
 
-        Optional<Product> product = productRepository.findById(seq);
-
-        if (product.isPresent()) { //Optional<Product>기 때문에 isPresent 메서드를 통해 검증하는 과정이 있어야함
-
-            OrderContent newOrderContent = new OrderContent(orders, product.get(), count);
-            orders.getOrderContentList().add(newOrderContent);
-            orderContentRepository.save(newOrderContent);
-        }
+        productRepository.findById(seq).ifPresentOrElse(
+                productValue -> {
+                    OrderContent newOrderContent = new OrderContent(orders, productValue, count);
+                    orders.getOrderContentList().add(newOrderContent);
+                    orderContentRepository.save(newOrderContent);
+                },
+                () -> {
+                    //Optional null 일 때 여기서 처리
+                }
+        );
     }
 }
