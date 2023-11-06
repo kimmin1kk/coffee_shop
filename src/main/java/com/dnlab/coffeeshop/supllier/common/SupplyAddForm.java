@@ -1,6 +1,5 @@
 package com.dnlab.coffeeshop.supllier.common;
 
-import com.dnlab.coffeeshop.product.common.Unit;
 import com.dnlab.coffeeshop.product.domain.Ingredient;
 import com.dnlab.coffeeshop.supllier.domain.Supply;
 import com.dnlab.coffeeshop.supllier.domain.SupplyContent;
@@ -32,7 +31,6 @@ public class SupplyAddForm {
     public static class SupplyContentInfo {
         private String ingredientName;
         private Integer amount;
-        private Unit unit;
         private Integer price;
 
         public SupplyContent addSupplyContent(Ingredient ingredient, Supply supply) {
@@ -40,7 +38,6 @@ public class SupplyAddForm {
                     .supply(supply)
                     .ingredient(ingredient)
                     .amount(amount)
-                    .unit(unit)
                     .price(price)
                     .build();
         }

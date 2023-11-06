@@ -12,21 +12,17 @@
             <div th:each="ingredientInfo, stat : *{ingredients}" class="item">
                 <input type="hidden" name="productSeq" th:value="${recipeAddForm.productSeq}">
                 <label for="ingredientName">재료명</label>
-                <select id="ingredientName" th:field="*{ingredients[__${stat.index}__].ingredientName}">
-                    <option th:each="ingredient : ${ingredients}"
-                            th:value="${ingredient.name}"
+                <select id="ingredientName" class="ingredient-select" th:field="*{ingredients[__${stat.index}__].ingredientName}">
+                    <option th:each="ingredient : ${ingredients}" th:value="${ingredient.name}"
+                            th:data-unit="${ingredient.unit.getDisplayName()}"
                             th:text="${ingredient.name}"></option>
                 </select>
-                <label for="amount"></label>
-                <input type="text" th:field="*{ingredients[__${stat.index}__].amount}" placeholder="양을 입력해주세요">
-                <label for="unit">단위</label>
-                <select name="unit" th:field="*{ingredients[__${stat.index}__].unit}" style="width: 20%">
-                    <option th:each="unitOpt : ${T(com.dnlab.coffeeshop.product.common.Unit).values()}"
-                            th:value="${unitOpt}"
-                            th:text="${unitOpt.getDisplayName()}"></option>
-                </select>
-                <button type="button" class="deleteItem">재료 삭제</button>
 
+                <label for="amount"></label>
+                <input type="number" th:field="*{ingredients[__${stat.index}__].amount}" placeholder="양을 입력해주세요">
+                <span class="unit"></span>
+
+                <button type="button" class="deleteItem">재료 삭제</button>
             </div>
         </div>
 

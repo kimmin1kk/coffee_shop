@@ -169,28 +169,14 @@ public class OrderContentService {
      * @param username
      * @param count    구매하려는 상품 수
      */
+    @Transactional
     public void addProductToCart(long seq, String username, int count) {
         getOrders(username);
-
         var orders = findOrders(username);
-
-        productRepository.findById(seq).ifPresentOrElse(
-                productValue -> {
-                    OrderContent existingOrderContent = orderContentRepository.findByOrdersAndProduct(orders, productValue);
-
-                    if (existingOrderContent == null) { //이미 장바구니에 있는 상품일 경우, 카운트만 올라가게 하는 로직
-                        OrderContent newOrderContent = new OrderContent(orders, productValue, count);
-                        orderContentRepository.save(newOrderContent);
-                    } else {
-                        int updatedCount = existingOrderContent.getCount() + count;
-                        existingOrderContent.setCount(updatedCount);
-                        orderContentRepository.save(existingOrderContent);
-                    }
-                },
-                () -> {
-                    //Optional null 일 때 여기서 처리
-                }
-        );
+        productRepository.findById(seq)
+                .ifPresent(product -> orderContentRepository.findByOrdersAndProduct(orders, product)
+                        .ifPresentOrElse(orderContent -> orderContent.addCount(count),
+                                () -> orderContentRepository.save(new OrderContent(orders, product, count))));
     }
 
     /**

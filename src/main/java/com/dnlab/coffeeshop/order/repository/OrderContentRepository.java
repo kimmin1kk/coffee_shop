@@ -6,8 +6,10 @@ import com.dnlab.coffeeshop.product.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface OrderContentRepository extends JpaRepository<OrderContent, Long> {
-    OrderContent findByOrdersAndProduct(Orders orders, Product product);
+    Optional<OrderContent> findByOrdersAndProduct(Orders orders, Product product);
 
 }

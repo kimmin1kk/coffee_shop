@@ -22,14 +22,14 @@ public class RecipeAddForm {
     public static class IngredientInfo {
         private String ingredientName;
         private Integer amount;
-        private Unit unit;
+//        private Unit unit;
 
         public Recipe addRecipe(Ingredient ingredient, Product product) {
             return Recipe.builder()
                     .ingredient(ingredient)
                     .product(product)
                     .amount(amount)
-                    .unit(unit)
+//                    .unit(unit)
                     .build();
         }
     }

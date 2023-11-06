@@ -2,6 +2,7 @@ package com.dnlab.coffeeshop.order.domain;
 
 
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
+import com.dnlab.coffeeshop.order.common.OrderPageForm;
 import com.dnlab.coffeeshop.order.common.PaymentMethod;
 import com.dnlab.coffeeshop.user.domain.User;
 import jakarta.persistence.*;
@@ -43,4 +44,9 @@ public class Orders extends BaseTimeEntity {
         this.user = user;
     }
 
+    public void confirmOrder(OrderPageForm pageForm) {
+        this.paymentMethod = pageForm.getPaymentMethod();
+        this.totalPrice = this.orderContentList.stream().mapToInt(oc -> oc.getProduct().getPrice() * oc.getCount()).sum();
+        this.ordered = true;
+    }
 }

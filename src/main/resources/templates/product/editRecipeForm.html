@@ -13,15 +13,11 @@
     <label>재료명</label>
     <input type="text" th:field="*{ingredient.name}" readonly>
 
-    <label for="amount"></label>
+    <label for="amount">재고량: </label>
     <input type="text" name="amount" th:field="*{amount}" />
 
-    <label for="unit"></label>
-    <select name="unit" style="width: 20%" th:field="*{unit}">
-      <option th:each="unitOpt : ${T(com.dnlab.coffeeshop.product.common.Unit).values()}"
-              th:value="${unitOpt}"
-              th:text="${unitOpt.getDisplayName()}"></option>
-    </select>
+    <label for="unit">단위:</label>
+    <input type="text" readonly="readonly" name="unit" th:value="${ingredient.unit.getDisplayName()}"/>
 
     <input type="submit" class="button" value="변경">
     <input type="button" class="button2" value="취소" onclick="window.history.back()">

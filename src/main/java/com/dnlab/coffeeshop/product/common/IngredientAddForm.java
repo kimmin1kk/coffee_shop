@@ -11,10 +11,14 @@ public class IngredientAddForm {
     @NotBlank
     private String name;
 
+    @NotBlank
+    private Unit unit;
+
 
     public Ingredient addIngredient() {
         return Ingredient.builder()
                 .name(name)
+                .unit(unit)
                 .build();
     }
 }

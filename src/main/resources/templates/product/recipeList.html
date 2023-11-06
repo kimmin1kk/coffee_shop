@@ -25,12 +25,15 @@
 
 <table class="">
 
+
+    <a style="display: block; text-align: center;" th:href="@{/add-recipe/{seq}(seq=${productSeq})}">레시피 추가</a>
     <thead>
+
     <tr>
         <th>재료명</th>
         <th>들어가는 양</th>
         <th>단위</th>
-        <th>보기/수정</th>
+        <!--        <th>보기/수정</th>-->
         <th>삭제</th>
     </tr>
     </thead>
@@ -38,8 +41,8 @@
     <tr th:each="recipe : ${recipes}">
         <td th:text="${recipe.getIngredient().name}"></td>
         <td th:text="${recipe.getAmount()}"></td>
-        <td th:text="${recipe.getUnit().getDisplayName()}"></td>
-        <td><a th:href="@{/edit-recipe/{id}(id=${recipe.getSeq()})}">수정</a></td>
+        <td th:text="${recipe.getIngredient().getUnit().getDisplayName()}"></td>
+        <!--        <td><a th:href="@{/edit-recipe/{id}(id=${recipe.getSeq()})}">수정</a></td>-->
         <td><a th:href="@{/delete-recipe/{id}(id=${recipe.getSeq()}, productSeq=${productSeq})}">삭제</a></td>
         </td></tr>
     </tbody>

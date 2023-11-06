@@ -1,10 +1,10 @@
 package com.dnlab.coffeeshop.order.service;
 
 import com.dnlab.coffeeshop.order.common.OrderPageForm;
+import com.dnlab.coffeeshop.order.domain.OrderContent;
 import com.dnlab.coffeeshop.order.domain.Orders;
-import com.dnlab.coffeeshop.order.repository.OrderContentRepository;
 import com.dnlab.coffeeshop.order.repository.OrdersRepository;
-import com.dnlab.coffeeshop.product.domain.Product;
+import com.dnlab.coffeeshop.product.repository.IngredientRepository;
 import com.dnlab.coffeeshop.product.repository.ProductRepository;
 import com.dnlab.coffeeshop.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,34 +12,50 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RequiredArgsConstructor
 @Service
 public class OrdersService {
     private final OrdersRepository ordersRepository;
-    private final OrderContentRepository orderContentRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final IngredientRepository ingredientRepository;
 
     /**
      * 상품 하나의 유효성을 검사하는 로직
      * checkCart 메서드 내부에서 사용
      * OrderContent Seq 넣어야함
      */
-    public boolean checkQuantity(Long seq) {
-//        Optional<OrderContent> orderContentOptional = orderContentRepository.findById(seq);
-//        return orderContentOptional.filter(orderContent -> orderContent.getCount() <= orderContent.getProduct().getQuantity()).isPresent();
-        return true;
+    public AtomicBoolean checkQuantityValidation(List<OrderContent> list) {
+        AtomicBoolean check = new AtomicBoolean(true);
+        list.forEach(orderContent -> {
+            orderContent.getProduct().getRecipeList().forEach(
+                    recipe -> {
+                        if (ingredientRepository.findByName(recipe.getIngredient().getName()).getAmount() < orderContent.getCount() * recipe.getAmount()) {
+                            check.set(false);
+                        }
+
+                    }
+            );
+        });
+        return check;
     }
 
-    /**
-     * 리스트(orders -> orderContentList)를 넣어 내부의 모든 상품의 유효성을 검사하는 로직
-     */
 
-    public boolean checkCart(Orders orders) {
-//        return orders.getOrderContentList().stream()
-//                .noneMatch(product -> checkQuantity(product.getSeq()));
-        return true;
+
+
+    /**
+     * 재고량 -- 하는 로직
+     * @param list
+     */
+    public void minusIngredientAmount(List<OrderContent> list) {
+        list.forEach(orderContent -> {
+            orderContent.getProduct().getRecipeList().forEach(
+                    recipe -> ingredientRepository.findByName(recipe.getIngredient().getName())
+                            .minusAmount(recipe.getAmount() * orderContent.getCount())); //상품별 레시피 리스트
+                }
+        );
     }
 
     /**
@@ -49,13 +65,8 @@ public class OrdersService {
     @Transactional
     public void processOrder(Orders orders) {
         orders.getOrderContentList().stream()
-                .map(orderContent -> {
-                    Product product = orderContent.getProduct();
-                    //재고량 -- 로직 넣으면 됨
-                    return product;
-
-                }).forEach(productRepository::save);
-
+                .map(OrderContent::getProduct)
+                .forEach(productRepository::save);
     }
 
     /**
@@ -64,14 +75,12 @@ public class OrdersService {
      */
     @Transactional
     public void confirmOrder(OrderPageForm orderPageForm, Orders orders) {
-        if (checkCart(orders)) {
+        if (checkQuantityValidation(orders.getOrderContentList()).get()) {
+            minusIngredientAmount(orders.getOrderContentList());
             processOrder(orders);
-            Orders modifiedOrders = orders.toBuilder()
-                    .paymentMethod(orderPageForm.getPaymentMethod())  // OrderPageForm에서 paymentMethod를 가져옴
-                    .totalPrice(orders.getOrderContentList().stream().mapToInt(oc -> oc.getProduct().getPrice() * oc.getCount()).sum())  // 주문 상품들의 가격을 합산
-                    .ordered(true)
-                    .build();
-            ordersRepository.save(modifiedOrders);
+            orders.confirmOrder(orderPageForm);
+        }else {
+            throw new RuntimeException("Error: 재고 부족으로 인한 상품 주문 불가");
         }
     }
 

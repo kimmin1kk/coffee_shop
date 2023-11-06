@@ -1,7 +1,6 @@
 package com.dnlab.coffeeshop.product.domain;
 
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
-import com.dnlab.coffeeshop.product.common.Unit;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,9 +23,9 @@ public class Recipe extends BaseTimeEntity {
     @JoinColumn(name = "ingredient_seq")
     private Ingredient ingredient;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Unit unit;
+//    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false)
+//    private Unit unit;
 
     @ManyToOne
     @JoinColumn(name="product_seq")

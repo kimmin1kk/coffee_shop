@@ -1,7 +1,6 @@
 package com.dnlab.coffeeshop.supllier.domain;
 
 import com.dnlab.coffeeshop.config.BaseTimeEntity;
-import com.dnlab.coffeeshop.product.common.Unit;
 import com.dnlab.coffeeshop.product.domain.Ingredient;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,9 +19,6 @@ public class SupplyContent extends BaseTimeEntity {
 
     @Column(nullable = false)
     private int amount;
-
-    @Column(nullable = false)
-    private Unit unit;
 
     @Column(nullable = false)
     private int price;

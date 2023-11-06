@@ -42,7 +42,7 @@
   <tr th:each="supplyContent : ${supplyContents}">
     <td th:text="${supplyContent.getIngredient().getName()}"></td>
     <td th:text="${supplyContent.getAmount()}"></td>
-    <td th:text="${supplyContent.getUnit().getDisplayName()}"></td>
+    <td th:text="${supplyContent.getIngredient().getUnit().getDisplayName()}"></td>
     <td th:text="${supplyContent.getPrice()}"></td>
   </tr>
   </tbody>

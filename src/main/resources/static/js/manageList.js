@@ -1,3 +1,13 @@
+document.getElementById('items').addEventListener('change', function(event) {
+    var target = event.target;
+    if (target.className === 'ingredient-select') {
+        var selectedOption = target.options[target.selectedIndex];
+        var unit = selectedOption.getAttribute('data-unit');
+        var unitField = target.parentElement.querySelector('.unit');
+        unitField.textContent = ' ' + unit;
+    }
+});
+
 document.getElementById('addItem').addEventListener('click', function () {
     const itemsDiv = document.getElementById('items');
     const newItem = document.querySelector('.item').cloneNode(true);

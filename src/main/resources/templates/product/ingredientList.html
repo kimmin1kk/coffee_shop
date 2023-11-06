@@ -26,12 +26,16 @@
     <thead>
     <tr>
         <th>재료명</th>
+        <th>재고량</th>
+        <th>재고 단위</th>
         <th>등록일</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="ingredient : ${ingredients}">
         <td th:text="${ingredient.getName()}"></td>
+        <td th:text="${ingredient.getAmount()}"></td>
+        <td th:text="${ingredient.getUnit().getDisplayName()}"></td>
         <td th:text="${ingredient.getCreatedDate()}"></td>
     </tr>
     </tbody>

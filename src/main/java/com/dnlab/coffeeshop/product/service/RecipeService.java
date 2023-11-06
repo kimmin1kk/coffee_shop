@@ -9,6 +9,7 @@ import com.dnlab.coffeeshop.product.repository.ProductRepository;
 import com.dnlab.coffeeshop.product.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,12 +31,12 @@ public class RecipeService {
                 .forEach(recipeRepository::save);
     }
 
+    @Transactional
     public void updateRecipe(Long recipeSeq, Recipe updatedRecipe) {
         recipeRepository.findById(recipeSeq).ifPresentOrElse(
                 recipeValue -> {
                     recipeValue.setAmount(updatedRecipe.getAmount());
-                    recipeValue.setUnit(updatedRecipe.getUnit());
-                    recipeRepository.save(recipeValue);
+//                    recipeValue.setUnit(updatedRecipe.getUnit());
                 },
                 () -> {
                     throw new RuntimeException("ser not found with seq:" + recipeSeq);

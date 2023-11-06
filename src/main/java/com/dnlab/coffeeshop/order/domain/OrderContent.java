@@ -33,4 +33,8 @@ public class OrderContent extends BaseTimeEntity {
         this.orders = orders;
         this.product = product;
     }
+
+    public void addCount(int count) {
+        this.count += count;
+    }
 }

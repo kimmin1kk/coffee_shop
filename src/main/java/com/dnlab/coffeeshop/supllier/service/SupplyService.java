@@ -51,14 +51,18 @@ public class SupplyService {
         supplyContentInfos.stream()
                 .map(info -> {
                     Ingredient ingredient = ingredientRepository.findByName(info.getIngredientName());
+                    addAmountToIngredient(ingredient, info.getAmount());
                     return SupplyContent.builder()
                             .ingredient(ingredient)
                             .supply(supply)
                             .price(info.getPrice())
-                            .unit(info.getUnit())
                             .amount(info.getAmount())
                             .build();
                 }).forEach(supplyContent -> supply.getSupplyContentList().add(supplyContent));
+    }
+
+    private void addAmountToIngredient(Ingredient ingredient, int amount) {
+        ingredient.plusAmount(amount);
     }
 
     private Integer getSupplyTotalPrice(List<SupplyAddForm.SupplyContentInfo> supplyContentInfos) {
