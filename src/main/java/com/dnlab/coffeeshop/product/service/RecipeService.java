@@ -34,9 +34,8 @@ public class RecipeService {
     @Transactional
     public void updateRecipe(Long recipeSeq, Recipe updatedRecipe) {
         recipeRepository.findById(recipeSeq).ifPresentOrElse(
-                recipeValue -> {
-                    recipeValue.setAmount(updatedRecipe.getAmount());
-//                    recipeValue.setUnit(updatedRecipe.getUnit());
+                recipe -> {
+                    recipe.setAmount(updatedRecipe.getAmount());
                 },
                 () -> {
                     throw new RuntimeException("ser not found with seq:" + recipeSeq);

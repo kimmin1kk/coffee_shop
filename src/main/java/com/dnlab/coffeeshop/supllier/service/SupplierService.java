@@ -17,8 +17,7 @@ public class SupplierService {
 
     @Transactional
     public void addSupplier(SupplierAddForm supplierAddForm) {
-        var supplier = supplierAddForm.addSupplier();
-        supplierRepository.save(supplier);
+        supplierRepository.save(supplierAddForm.toEntity());
     }
 
     public List<Supplier> getSupplierList() {

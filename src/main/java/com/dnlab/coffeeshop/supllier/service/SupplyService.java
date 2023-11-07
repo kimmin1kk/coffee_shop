@@ -3,6 +3,7 @@ package com.dnlab.coffeeshop.supllier.service;
 import com.dnlab.coffeeshop.product.domain.Ingredient;
 import com.dnlab.coffeeshop.product.repository.IngredientRepository;
 import com.dnlab.coffeeshop.supllier.common.SupplyAddForm;
+import com.dnlab.coffeeshop.supllier.domain.Supplier;
 import com.dnlab.coffeeshop.supllier.domain.Supply;
 import com.dnlab.coffeeshop.supllier.domain.SupplyContent;
 import com.dnlab.coffeeshop.supllier.repository.SupplierRepository;
@@ -10,6 +11,7 @@ import com.dnlab.coffeeshop.supllier.repository.SupplyContentRepository;
 import com.dnlab.coffeeshop.supllier.repository.SupplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,12 +30,11 @@ public class SupplyService {
      * supplyContentList에 CascadeType.ALL을 지정해 두어
      * supply가 DB에 저장될 때 함께 저장되게 해둠
      */
+    @Transactional
     public void createSupply(SupplyAddForm supplyAddForm) {
-        Supply supply = Supply.builder()
-                .dueDate(supplyAddForm.getDueDate())
-                .supplier(supplierRepository.findByName(supplyAddForm.supplierName))
-                .totalPrice(getSupplyTotalPrice(supplyAddForm.getSupplyContentList()))
-                .build();
+        Supplier supplier = supplierRepository.findByName(supplyAddForm.supplierName);
+        int totalPrice = getSupplyTotalPrice(supplyAddForm.getSupplyContentList());
+        Supply supply = supplyAddForm.toEntity(supplier, totalPrice);
         addSupplyContentsToSupply(supply, supplyAddForm.getSupplyContentList());
         supplyRepository.save(supply);
     }
@@ -47,17 +48,11 @@ public class SupplyService {
      * @param supplyContentInfos
      */
     private void addSupplyContentsToSupply(Supply supply, List<SupplyAddForm.SupplyContentInfo> supplyContentInfos) {
-
         supplyContentInfos.stream()
                 .map(info -> {
                     Ingredient ingredient = ingredientRepository.findByName(info.getIngredientName());
                     addAmountToIngredient(ingredient, info.getAmount());
-                    return SupplyContent.builder()
-                            .ingredient(ingredient)
-                            .supply(supply)
-                            .price(info.getPrice())
-                            .amount(info.getAmount())
-                            .build();
+                    return info.toEntity(ingredient,supply);
                 }).forEach(supplyContent -> supply.getSupplyContentList().add(supplyContent));
     }
 

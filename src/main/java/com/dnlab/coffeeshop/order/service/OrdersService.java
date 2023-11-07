@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @RequiredArgsConstructor
 @Service
@@ -27,33 +26,23 @@ public class OrdersService {
      * checkCart 메서드 내부에서 사용
      * OrderContent Seq 넣어야함
      */
-    public AtomicBoolean checkQuantityValidation(List<OrderContent> list) {
-        AtomicBoolean check = new AtomicBoolean(true);
-        list.forEach(orderContent -> {
-            orderContent.getProduct().getRecipeList().forEach(
-                    recipe -> {
-                        if (ingredientRepository.findByName(recipe.getIngredient().getName()).getAmount() < orderContent.getCount() * recipe.getAmount()) {
-                            check.set(false);
-                        }
-
-                    }
-            );
-        });
-        return check;
+    public boolean checkQuantityValidation(List<OrderContent> list) {
+        return list.stream().allMatch
+                (orderContent -> orderContent.getProduct().getRecipeList().stream().allMatch
+                        (recipe -> ingredientRepository.findByName(recipe.getIngredient().getName()).getAmount() > orderContent.getCount() * recipe.getAmount()));
     }
-
-
 
 
     /**
      * 재고량 -- 하는 로직
+     *
      * @param list
      */
     public void minusIngredientAmount(List<OrderContent> list) {
         list.forEach(orderContent -> {
-            orderContent.getProduct().getRecipeList().forEach(
-                    recipe -> ingredientRepository.findByName(recipe.getIngredient().getName())
-                            .minusAmount(recipe.getAmount() * orderContent.getCount())); //상품별 레시피 리스트
+                    orderContent.getProduct().getRecipeList().forEach(
+                            recipe -> ingredientRepository.findByName(recipe.getIngredient().getName())
+                                    .minusAmount(recipe.getAmount() * orderContent.getCount())); //상품별 레시피 리스트
                 }
         );
     }
@@ -75,11 +64,11 @@ public class OrdersService {
      */
     @Transactional
     public void confirmOrder(OrderPageForm orderPageForm, Orders orders) {
-        if (checkQuantityValidation(orders.getOrderContentList()).get()) {
+        if (checkQuantityValidation(orders.getOrderContentList())) {
             minusIngredientAmount(orders.getOrderContentList());
             processOrder(orders);
             orders.confirmOrder(orderPageForm);
-        }else {
+        } else {
             throw new RuntimeException("Error: 재고 부족으로 인한 상품 주문 불가");
         }
     }
