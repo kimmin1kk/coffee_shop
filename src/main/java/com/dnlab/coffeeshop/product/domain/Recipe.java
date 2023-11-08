@@ -23,10 +23,6 @@ public class Recipe extends BaseTimeEntity {
     @JoinColumn(name = "ingredient_seq")
     private Ingredient ingredient;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private Unit unit;
-
     @ManyToOne
     @JoinColumn(name="product_seq")
     private Product product;

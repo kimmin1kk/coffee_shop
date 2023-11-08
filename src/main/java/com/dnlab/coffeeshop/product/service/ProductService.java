@@ -2,11 +2,13 @@ package com.dnlab.coffeeshop.product.service;
 
 import com.dnlab.coffeeshop.product.common.Category;
 import com.dnlab.coffeeshop.product.common.ProductAddForm;
+import com.dnlab.coffeeshop.product.common.ProductEditForm;
 import com.dnlab.coffeeshop.product.domain.Product;
 import com.dnlab.coffeeshop.product.repository.ProductRepository;
 import com.dnlab.coffeeshop.product.repository.SearchProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,5 +44,13 @@ public class ProductService {
             return productRepository.findAll();
         }
     }
+
+    @Transactional
+    public void updateProduct(Long seq, ProductEditForm productEditForm) {
+        Product product = productRepository.findBySeq(seq);
+        product.updateProduct(productEditForm);
+    }
+
+
 
 }

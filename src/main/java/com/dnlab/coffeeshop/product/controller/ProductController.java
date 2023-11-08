@@ -2,6 +2,7 @@ package com.dnlab.coffeeshop.product.controller;
 
 import com.dnlab.coffeeshop.product.common.Category;
 import com.dnlab.coffeeshop.product.common.ProductAddForm;
+import com.dnlab.coffeeshop.product.common.ProductEditForm;
 import com.dnlab.coffeeshop.product.domain.Product;
 import com.dnlab.coffeeshop.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,18 @@ public class ProductController {
     public String productList(Model model, Principal principal) {
         model.addAttribute("products", productService.getProductList());
         return "/product/productList";
+    }
+
+    @GetMapping("/edit-product/{seq}")
+    public String updateProductForm(Model model, Principal principal, @PathVariable("seq") long seq) {
+        model.addAttribute("product", productService.findProductBySeq(seq));
+
+        return "/product/editProductForm";
+    }
+
+    @PostMapping("/edit-product/{seq}")
+    public String updateProduct(Model model, Principal principal, ProductEditForm productEditForm, @PathVariable("seq")long seq) {
+        productService.updateProduct(seq, productEditForm);
+        return "redirect:/product-list";
     }
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>유저 목록</title>
+    <th:block th:insert="~{head::head-fragment}"/>
+
+
+    <style>
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+
+        }
+        table, tr, th, td{
+            border: solid black;
+        }
+    </style>
+</head>
+
+<body>
+<div th:insert="~{index::header-fragment}"></div>
+<h1 style="text-align: center">유저 목록</h1>
+<table class="">
+    <thead>
+    <tr>
+        <th>PK</th>
+        <th>아이디</th>
+        <th>비밀번호</th>
+        <th>닉네임</th>
+        <th>이름</th>
+        <th>주소</th>
+        <th>번호</th>
+        <th>생성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.getSeq()}"></td>
+        <td th:text="${user.getUsername()}"></td>
+        <td th:text="${user.getPassword()}"></td>
+        <td th:text="${user.getNickname()}"></td>
+        <td th:text="${user.getName()}"></td>
+        <td th:text="${user.getAddress()}"></td>
+        <td th:text="${user.getPhoneNumber()}"></td>
+        <td th:text="${user.getCreatedDate()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

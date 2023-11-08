@@ -25,15 +25,18 @@
 <table class="">
     <thead>
     <tr>
+        <th>상품번호</th>
         <th>상품명</th>
         <th>가격</th>
         <th>분야</th>
         <th>상품 등록일</th>
         <th>레시피</th>
+        <th>상품</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="product : ${products}">
+        <td th:text="${product.getSeq()}"></td>
         <td th:text="${product.getName()}"></td>
         <td th:text="${product.getPrice()}"></td>
         <td th:text="${product.getCategory().getDisplayName()}"></td>
@@ -46,6 +49,9 @@
             <a th:unless="${product.getRecipeList() == null || #lists.isEmpty(product.getRecipeList())}"
                th:href="@{/recipe-list/{seq}(seq=${product.getSeq()})}"
                class="button">보기</a>
+        </td>
+        <td>
+            <a th:href="@{/edit-product/{seq}(seq=${product.getSeq()})}" class="button">수정</a>
         </td>
     </tr>
     </tbody>
