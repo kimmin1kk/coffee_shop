@@ -30,6 +30,7 @@ public class Orders extends BaseTimeEntity {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "orders", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @Builder.Default
     private List<OrderContent> orderContentList = new ArrayList<>();
 
     private Integer totalPrice;

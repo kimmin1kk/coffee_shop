@@ -26,7 +26,11 @@ public class OrderContentController {
     public String shoppingCart(Model model, Principal principal) {
         orderContentService.getOrders(principal.getName());
         model.addAttribute("orders", orderContentService.findOrders(principal.getName()));
-        model.addAttribute("totalPrice", orderContentService.findTotalPrice(principal.getName()));
+        if (orderContentService.findOrders(principal.getName()).getOrderContentList() == null) {
+            model.addAttribute("totalPrice", 0);
+        } else {
+            model.addAttribute("totalPrice", orderContentService.findTotalPrice(principal.getName()));
+        }
         return "shop/shoppingCart";
 
     }
