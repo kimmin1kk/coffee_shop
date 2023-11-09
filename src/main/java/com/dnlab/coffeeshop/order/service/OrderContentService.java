@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -22,15 +23,6 @@ public class OrderContentService {
     private final ProductRepository productRepository;
     private final OrderContentRepository orderContentRepository;
 
-
-    @Transactional
-    public void deleteOrders(Long seq) {
-        Orders cart = ordersRepository.findBySeq(seq);
-        if (cart.isInstant()) {
-            ordersRepository.deleteById(seq);
-        }
-
-    }
 
     /**
      * 장바구니 구매용
@@ -56,7 +48,7 @@ public class OrderContentService {
      */
     public Orders findOrdersForInstant(String username) {
         return ordersRepository.findOrdersListByUserUsername(username).stream()
-                .filter(findcart -> !findcart.isOrdered() && findcart.isInstant())
+                .filter(orders -> !orders.isOrdered() && orders.isInstant())
                 .findFirst()
                 .orElse(null);
     }
@@ -114,6 +106,13 @@ public class OrderContentService {
         }
     }
 
+    private void deleteOrders(Long seq) {
+        Orders cart = ordersRepository.findBySeq(seq);
+        if (cart.isInstant()) {
+            ordersRepository.deleteById(seq);
+        }
+    }
+
     /**
      * 장바구니 구매용
      * 장바구니 생성
@@ -136,6 +135,8 @@ public class OrderContentService {
     public void createOrdersForInstant(String username) {
         var user = userRepository.findByUsername(username);
         var orders = new Orders(user).toBuilder()
+                .orderContentList(new ArrayList<OrderContent>())
+                .ordered(false)
                 .instant(true)
                 .build();
         ordersRepository.save(orders);
@@ -190,8 +191,8 @@ public class OrderContentService {
         var orders = findOrdersForInstant(username);
 
         productRepository.findById(seq).ifPresentOrElse(
-                productValue -> {
-                    OrderContent newOrderContent = new OrderContent(orders, productValue, count);
+                product -> {
+                    OrderContent newOrderContent = new OrderContent(orders, product, count);
                     orders.getOrderContentList().add(newOrderContent);
                     orderContentRepository.save(newOrderContent);
                 },
