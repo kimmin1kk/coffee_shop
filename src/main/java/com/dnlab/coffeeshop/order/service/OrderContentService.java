@@ -90,16 +90,15 @@ public class OrderContentService {
 
         if (!user.getOrdersList().isEmpty()) { //장바구니가 이미 있엇으면 이걸로 ㅇㅇ
             Long seq = null;
-            for (Orders orders : user.getOrdersList()) {
-                check = orders.isOrdered();
+            for (Orders orders : user.getOrdersList().stream().filter(Orders::isInstant).toList()) {
+                check = orders.isOrdered(); //주문이 됐으면 TRUE
                 seq = orders.getSeq();
             }
-            if (check) {
-                createOrdersForInstant(username);
-            } else {
+            if (!check) {
                 deleteOrders(seq);
-                createOrdersForInstant(username);
             }
+
+            createOrdersForInstant(username);
         }
         if (user.getOrdersList().isEmpty()) { //첫 장바구니 생성
             createOrdersForInstant(username);
