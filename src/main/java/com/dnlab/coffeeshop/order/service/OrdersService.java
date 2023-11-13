@@ -139,8 +139,8 @@ public class OrdersService {
         return user.getPoint();
     }
 
-    public List<PointUsage> getPointUsages() {
-        return pointUsageRepository.findAll();
+    public List<PointUsage> getUserPointUsages(String username) {
+        return pointUsageRepository.findPointUsagesByUserUsername(username);
     }
 
 }

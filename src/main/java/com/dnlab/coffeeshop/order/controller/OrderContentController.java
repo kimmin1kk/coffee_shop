@@ -3,6 +3,7 @@ package com.dnlab.coffeeshop.order.controller;
 import com.dnlab.coffeeshop.order.domain.OrderContent;
 import com.dnlab.coffeeshop.order.repository.OrderContentRepository;
 import com.dnlab.coffeeshop.order.service.OrderContentService;
+import com.dnlab.coffeeshop.order.service.OrdersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import java.util.Optional;
 @Slf4j
 public class OrderContentController {
     private final OrderContentService orderContentService;
+    private final OrdersService ordersService;
     private final OrderContentRepository orderContentRepository;
 
     @GetMapping("/shopping-cart")

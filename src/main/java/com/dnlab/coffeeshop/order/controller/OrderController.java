@@ -28,6 +28,7 @@ public class OrderController {
      */
     @GetMapping("/order-page")
     public String orderPage(Model model, Principal principal) {
+        model.addAttribute("point", ordersService.getPoint(principal.getName()));
         model.addAttribute("orders", orderContentService.findOrders(principal.getName()));
         return "shop/orderPage";
     }
@@ -47,7 +48,6 @@ public class OrderController {
         }
         orderContentService.addProductToCartForInstant(seq, principal.getName(), count);
         model.addAttribute("point", ordersService.getPoint(principal.getName()));
-
         model.addAttribute("orders", orderContentService.findOrdersForInstant(principal.getName()));
         return "shop/orderPage";
     }
@@ -81,7 +81,7 @@ public class OrderController {
     @GetMapping("/point-usage")
     public String pointUsage(Model model, Principal principal) {
         model.addAttribute("point", ordersService.getPoint(principal.getName()));
-        model.addAttribute("pointUsages", ordersService.getPointUsages());
+        model.addAttribute("pointUsages", ordersService.getUserPointUsages(principal.getName()));
 
         return "account/pointUsage";
     }
