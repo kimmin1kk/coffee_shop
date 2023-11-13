@@ -22,6 +22,8 @@
                                         th:value="${paymentMethodOpt}"
                                         th:text="${paymentMethodOpt.getDisplayName()}"></option>
                             </select>
+                            <label>포인트 사용</label>
+                            <input type="text" name="point" th:value="${point}">
                             <input type="hidden" id="order-instant" name="orderInstant"
                                    th:value="${orders.isInstant()}">
                             <h4 class="mt-4">주문 상품</h4>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>포인트 +- 내역</title>
+    <th:block th:insert="~{head::head-fragment}"/>
+
+
+    <style>
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+
+        }
+        table, tr, th, td{
+            border: solid black;
+        }
+    </style>
+</head>
+<body>
+<label>보유 포인트</label>
+<input type="text" th:value="${point}" readonly="readonly">
+<table class="">
+    <thead>
+    <tr>
+        <th>포인트 +-</th>
+        <th>포인트 량</th>
+        <th>생성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="points : ${pointUsages}">
+        <td th:text="${points.getPointState()}"></td>
+        <td th:text="${points.getPointUsage()}"></td>
+        <td th:text="${points.getCreatedDate()}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

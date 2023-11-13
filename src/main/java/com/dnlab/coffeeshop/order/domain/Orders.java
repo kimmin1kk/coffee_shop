@@ -47,7 +47,7 @@ public class Orders extends BaseTimeEntity {
 
     public void confirmOrder(OrderPageForm pageForm) {
         this.paymentMethod = pageForm.getPaymentMethod();
-        this.totalPrice = this.orderContentList.stream().mapToInt(oc -> oc.getProduct().getPrice() * oc.getCount()).sum();
+        this.totalPrice = this.orderContentList.stream().mapToInt(oc -> oc.getProduct().getPrice() * oc.getCount()).sum() - pageForm.getPoint();
         this.ordered = true;
     }
 }

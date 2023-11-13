@@ -6,6 +6,10 @@ import com.dnlab.coffeeshop.order.domain.Orders;
 import com.dnlab.coffeeshop.order.repository.OrdersRepository;
 import com.dnlab.coffeeshop.product.repository.IngredientRepository;
 import com.dnlab.coffeeshop.product.repository.ProductRepository;
+import com.dnlab.coffeeshop.user.common.PointState;
+import com.dnlab.coffeeshop.user.domain.PointUsage;
+import com.dnlab.coffeeshop.user.domain.User;
+import com.dnlab.coffeeshop.user.repository.PointUsageRepository;
 import com.dnlab.coffeeshop.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,7 @@ public class OrdersService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final IngredientRepository ingredientRepository;
+    private final PointUsageRepository pointUsageRepository;
 
     /**
      * 상품 하나의 유효성을 검사하는 로직
@@ -68,6 +73,8 @@ public class OrdersService {
             minusIngredientAmount(orders.getOrderContentList());
             processOrder(orders);
             orders.confirmOrder(orderPageForm);
+            addPoint(orders.getUser().getSeq(), orders.getTotalPrice());
+            minusPoint(orders.getUser().getSeq(), orderPageForm.getPoint());
         } else {
             throw new RuntimeException("Error: 재고 부족으로 인한 상품 주문 불가");
         }
@@ -95,6 +102,45 @@ public class OrdersService {
         return ordersRepository.findAll().stream()
                 .filter(Orders::isOrdered)
                 .toList();
+    }
+
+    private void addPoint(long userSeq, int totalPrice) {
+        User user = userRepository.findById(userSeq).orElseThrow();
+        int point = totalPrice / 10;
+        user.getPoint(point);
+
+        PointUsage pointUsage = PointUsage.builder()
+                .pointState(PointState.PLUS)
+                .user(user)
+                .pointUsage(point)
+                .build();
+        pointUsageRepository.save(pointUsage);
+    }
+
+    public void minusPoint(long userSeq, int point) {
+        if (point > 0) {
+            User user = userRepository.findById(userSeq).orElseThrow();
+            user.minusPoint(point);
+
+            PointUsage pointUsage = PointUsage.builder()
+                    .pointState(PointState.MINUS)
+                    .user(user)
+                    .pointUsage(point)
+                    .build();
+
+            pointUsageRepository.save(pointUsage);
+        }
+
+
+    }
+
+    public int getPoint(String username) {
+        User user = userRepository.findByUsername(username);
+        return user.getPoint();
+    }
+
+    public List<PointUsage> getPointUsages() {
+        return pointUsageRepository.findAll();
     }
 
 }

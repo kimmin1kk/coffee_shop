@@ -7,4 +7,5 @@ public class OrderPageForm {
     private boolean orderInstant;
     private PaymentMethod paymentMethod;
     private Integer totalPrice;
+    private Integer point;
 }

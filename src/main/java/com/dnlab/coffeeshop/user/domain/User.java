@@ -33,6 +33,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private String address;
 
+    @Column(nullable = false)
+    private int point;
+
     @Column(columnDefinition = "boolean default true")
     @Builder.Default
     private boolean enabled = true;
@@ -45,7 +48,13 @@ public class User extends BaseTimeEntity {
     @Builder.Default
     private List<Orders> ordersList = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @Builder.Default
+    private List<PointUsage> pointUsageList = new ArrayList<>();
+
+
     @Override
+
     public String toString() {
         return "User{" +
                 "seq=" + seq +
@@ -57,6 +66,14 @@ public class User extends BaseTimeEntity {
                 ", enabled=" + enabled +
                 ", authorities=" + authorities +
                 '}';
+    }
+
+    public void getPoint(int point) {
+        this.point += point;
+    }
+
+    public void minusPoint(int point) {
+        this.point -= point;
     }
 }
 
