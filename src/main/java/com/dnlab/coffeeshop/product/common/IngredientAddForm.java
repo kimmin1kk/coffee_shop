@@ -19,6 +19,7 @@ public class IngredientAddForm {
         return Ingredient.builder()
                 .name(name)
                 .unit(unit)
+                .amount(100)
                 .build();
     }
 }

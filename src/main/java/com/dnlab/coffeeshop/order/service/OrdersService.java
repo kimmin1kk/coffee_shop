@@ -4,6 +4,7 @@ import com.dnlab.coffeeshop.order.common.OrderPageForm;
 import com.dnlab.coffeeshop.order.domain.OrderContent;
 import com.dnlab.coffeeshop.order.domain.Orders;
 import com.dnlab.coffeeshop.order.repository.OrdersRepository;
+import com.dnlab.coffeeshop.product.domain.Ingredient;
 import com.dnlab.coffeeshop.product.repository.IngredientRepository;
 import com.dnlab.coffeeshop.product.repository.ProductRepository;
 import com.dnlab.coffeeshop.user.repository.UserRepository;
@@ -40,12 +41,24 @@ public class OrdersService {
      */
     public void minusIngredientAmount(List<OrderContent> list) {
         list.forEach(orderContent -> {
-                    orderContent.getProduct().getRecipeList().forEach(
-                            recipe -> ingredientRepository.findByName(recipe.getIngredient().getName())
-                                    .minusAmount(recipe.getAmount() * orderContent.getCount())); //상품별 레시피 리스트
-                }
-        );
+            if (orderContent.getProduct().isSpecialMenu()) {
+                orderContent.getProduct().getRecipeList().forEach(recipe -> {
+                    Ingredient ingredient = ingredientRepository.findByName(recipe.getIngredient().getName());
+                    if (ingredient.getAmount() >= recipe.getAmount() * 30) {
+                        ingredient.minusAmount(recipe.getAmount() * orderContent.getCount());
+                    } else {
+                        throw new RuntimeException("재고가 부족합니다: " + ingredient.getName());
+                    }
+                });
+            } else {
+                orderContent.getProduct().getRecipeList().forEach(recipe -> {
+                    Ingredient ingredient = ingredientRepository.findByName(recipe.getIngredient().getName());
+                    ingredient.minusAmount(recipe.getAmount() * orderContent.getCount());
+                });
+            }
+        });
     }
+
 
     /**
      * Param으로 Orders를 받아 검사하는 로직

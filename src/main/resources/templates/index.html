@@ -31,7 +31,7 @@
     <nav style="display: flex;justify-content: space-between;align-items: center;">
         <div>
             <a th:href="@{/}" style=" font-size: 2em; padding-right: 10px;">
-                DN Cafe
+                KM Cafe
             </a>
         </div>
 
@@ -143,7 +143,34 @@
         <span>유저 목록</span>
     </a>
 </div>
-<h1 style="text-align: center">상품 목록</h1>
+
+<h1 style="text-align: center">대표 메뉴 목록</h1>
+
+<div class="product-items" style="text-align: center">
+    <div th:each="product : ${mainProducts}">
+        <a th:href="@{/single-product/{seq}(seq =${product.getSeq()})}">
+            <div class="product-summary">
+                <strong th:text="${product.getName()}"></strong>
+                <span th:text="${product.getPrice()} + '원'"></span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<h1 style="text-align: center">추천 상품 목록</h1>
+
+<div class="product-items" style="text-align: center">
+    <div th:each="product : ${specialProducts}">
+        <a th:href="@{/single-product/{seq}(seq =${product.getSeq()})}">
+            <div class="product-summary">
+                <strong th:text="${product.getName()}"></strong>
+                <span th:text="${product.getPrice()} + '원'"></span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<h1 style="text-align: center">전체 상품 목록</h1>
 
 <div class="product-items" style="text-align: center">
     <div th:each="product : ${products}">

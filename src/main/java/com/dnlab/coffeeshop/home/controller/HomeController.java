@@ -24,6 +24,8 @@ public class HomeController {
     public String home(Model model, Principal principal) {
         List<Product> displayProducts = productService.getProductList();
         model.addAttribute("products", displayProducts);
+        model.addAttribute("specialProducts", productService.getSpecialProductList());
+        model.addAttribute("mainProducts", productService.getMainProductList());
 
         return "index";
     }

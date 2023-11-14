@@ -33,6 +33,13 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<Product> getSpecialProductList() {
+        return productRepository.findAll().stream().filter(Product::isSpecialMenu).toList();
+    }
+    public List<Product> getMainProductList() {
+        return productRepository.findAll().stream().filter(Product::isMainMenu).toList();
+    }
+
     public List<Product> searchProductList(String keyword, Category category) {
         if (keyword != null && !keyword.isEmpty() && category != Category.ALL) {
             return searchProductRepository.findProductByNameContainingAndCategory(keyword, category);
@@ -50,6 +57,8 @@ public class ProductService {
         Product product = productRepository.findBySeq(seq);
         product.updateProduct(productEditForm);
     }
+
+
 
 
 

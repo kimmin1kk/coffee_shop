@@ -13,4 +13,12 @@ public class ProductEditForm {
     private int price;
     @NotBlank
     private Category category;
+
+    @NotBlank
+    private boolean specialState;
+
+    @NotBlank
+    private boolean mainState;
+
+
 }

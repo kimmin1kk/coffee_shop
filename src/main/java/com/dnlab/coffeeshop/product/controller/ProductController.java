@@ -57,13 +57,14 @@ public class ProductController {
     @GetMapping("/edit-product/{seq}")
     public String updateProductForm(Model model, Principal principal, @PathVariable("seq") long seq) {
         model.addAttribute("product", productService.findProductBySeq(seq));
-
+        model.addAttribute("bools", new Boolean[] {true, false});
         return "/product/editProductForm";
     }
 
     @PostMapping("/edit-product/{seq}")
-    public String updateProduct(Model model, Principal principal, ProductEditForm productEditForm, @PathVariable("seq")long seq) {
+    public String updateProduct(Model model, Principal principal, ProductEditForm productEditForm, @PathVariable("seq") long seq) {
         productService.updateProduct(seq, productEditForm);
         return "redirect:/product-list";
     }
+
 }

@@ -36,18 +36,16 @@ public class Product extends BaseTimeEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Recipe> recipeList;
 
+    private boolean mainMenu;
+
+    private boolean specialMenu;
+
     public void updateProduct(ProductEditForm productEditForm) {
         this.name = productEditForm.getName();
         this.price = productEditForm.getPrice();
         this.category = productEditForm.getCategory();
+        this.mainMenu = productEditForm.isMainState();
+        this.specialMenu = productEditForm.isSpecialState();
     }
-
-//    public Product updateProduct(ProductEditForm productEditForm) {
-//        return this.toBuilder()
-//                .name(productEditForm.getName())
-//                .price(productEditForm.getPrice())
-//                .category(productEditForm.getCategory())
-//                .build();
-//    }
 
 }

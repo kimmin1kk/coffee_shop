@@ -19,6 +19,17 @@
                     th:text="${categoryOpt.getDisplayName()}"></option>
         </select>
 
+        <label for="mainState">메인메뉴 여부</label>
+        <select id="mainState" name="mainState">
+            <option th:each="bool : ${bools}" th:value="${bool}" th:text="${bool ? 'True' : 'False'}"></option>
+        </select>
+
+        <label for="specialState">특별메뉴 여부</label>
+        <select id="specialState" name="specialState">
+            <option th:each="bool : ${bools}" th:value="${bool}" th:text="${bool ? 'True' : 'False'}"></option>
+        </select>
+
+
         <input type="submit" class="button" value="상품 변경">
         <input type="button" class="button2" value="취소" onclick="window.history.back()">
     </form>
